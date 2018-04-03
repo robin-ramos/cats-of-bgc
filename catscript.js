@@ -34,7 +34,7 @@ var tooltip = d3.select("#post").append("div")
 
 var milestones = [
   {date: parseTime("2015-05-30"), event: "First post in Instagram! The Cats of BGC has been known since 2015."},
-  {date: parseTime("2016-08-04"), event: "More people post about the cats in 2016..."},
+  {date: parseTime("2016-08-04"), event: "More people posted about the cats in 2016..."},
   {date: parseTime("2017-08-28"), event: "...and in 2017."},
   {date: parseTime("2018-02-16"), event: "A Facebook post by Lucy M went viral. The post with 4.8K and 12K shares tells the story about how Shangri-La BGC ordered Pestbusters to remove the cats from their perimeter. <br> <br> <div class='iframe-container'> <iframe src='https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fmarcellejohn.marcelino%2Fposts%2F10216653759442825&width=350&show_text=true&appId=1488368734536934&height=553' width='350' height='553' style='border:none;overflow:hidden' scrolling='yes' frameborder='0' allowTransparency='true'></iframe></div>"},
     {date: parseTime("2018-02-18"), event: "Shangri-La BGC posted a statement on their Facebook account. <br><br> <div class='iframe-container'> <iframe src='https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fshangrilafort%2Fphotos%2Fa.996102000419770.1073741828.994986307198006%2F1998901190139841%2F%3Ftype%3D3&width=400&show_text=true&height=496&appId' width='400' height='496' style='border:none;overflow:hidden' scrolling='no' frameborder='0' allowTransparency='true'></iframe></div>"},

@@ -4,6 +4,8 @@
   background-color: #bbb;
   border-radius: 50%;
   display: inline-block;
+  text-align: center;
+  border: 0;
 }
 
 .line {
@@ -92,6 +94,5 @@
     width: 60px;
     border: 0;
     margin-right: 19px;
-    float: left;
 }
 
