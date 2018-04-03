@@ -11,19 +11,23 @@
 <br>
 
 <div class="row" id="slide1">
-  <div class="col-lg-8">
+  <div class="col-lg-7">
     <div id="chart2"></div>
     <div id="chart1"></div>
   </div>
-  <div class="col-lg-4" >
+  <div class="col-lg-5 " >
     <br>
     <div class="row">
-      <div class="col-lg-12" text-align="center" style="margin: auto">
-      <button id="milestone-btn" onclick="nextStep()">Play</button>
-      <span class="step">1</span>
-      <span class="step">2</span>
-      <span class="step">3</span>
-      <span class="step">4</span>
+      <div class="col-lg-12" style="margin: auto; text-align: center;">
+      <button type="button" class="mbtn" id="milestone-btn2" onclick="prevButton()" disabled>Previous</button>
+      <span class="step" id="step-1">1</span>
+      <span class="step" id="step-2">2</span>
+      <span class="step" id="step-3">3</span>
+      <span class="step" id="step-4">4</span>
+      <span class="step" id="step-5">5</span>
+      <span class="step" id="step-6">6</span>
+      <span class="step" id="step-7">7</span>
+      <button class="mbtn" id="milestone-btn" onclick="nextButton()">Next</button>
     </div>
   </div>
     <div id ="intro-text"></div>
@@ -45,4 +49,6 @@
 <script async defer src="//platform.instagram.com/en_US/embeds.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="scroll-down.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </body>

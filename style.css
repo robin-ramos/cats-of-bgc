@@ -26,6 +26,10 @@ body, html {
   border: 0;
 }
 
+.stepactive {
+  color:white;
+}
+
 .line {
   fill: none;
   stroke: #212F3D;
@@ -117,14 +121,20 @@ body, html {
 	margin-left: 10px;
 }
 
-#milestone-btn {
-	color: #fff;
+.mbtn {
+    color: #fff;
     background-color: #ABB9AB;
     height: 25px;
     border-radius: 4px;
     cursor: pointer;
-    width: 60px;
+    width: 70px;
     border: 0;
-    margin-right: 19px;
+    font-size: 15px;
+    margin: 5px;
+}
+button:disabled {
+    color: #fff;
+    background-color: black;
+    cursor: default;
 }
 
