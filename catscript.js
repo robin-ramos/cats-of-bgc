@@ -224,7 +224,7 @@ d3.csv("allposts.csv", function(error, data) {
     .enter().append("circle")
     .filter(function(d) {return d.time})
     .attr("class", "scatterplots")
-    .attr("r", 5)
+    .attr("r", 3)
     .attr("cx", function(d) { return x(d.time); })
     .attr("cy", function(d) { return y3(d.popularity); })
     .attr("fill-opacity", 0)
