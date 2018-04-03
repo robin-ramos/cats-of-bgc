@@ -1,6 +1,38 @@
 body, html {
     height: 100%;
     margin: 0;
+    background-color: #253634;
+}
+
+body {
+  color: #E1DFDD;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.focus circle {
+  fill: #F1F3F3;
+}
+  
+.hover-line {
+  stroke: #A2C2B9;
+  stroke-width: 2px;
+  stroke-dasharray: 3,3;
+}
+
+.axisLine line {
+  stroke: #A2C2B9;
+}
+
+.axisLine path {
+  stroke: #A2C2B9;
+}
+
+.axisLine text {
+  fill: #A2C2B9;
 }
 
 .bg {
@@ -28,11 +60,12 @@ body, html {
 
 .stepactive {
   color:white;
+  background-color: #FDAACB;
 }
 
 .line {
   fill: none;
-  stroke: #212F3D;
+  stroke: #FEFEFE;
   stroke-width: 2px;
 }
 
@@ -41,6 +74,7 @@ body, html {
 	width: 375px;
 	overflow-y: auto;
 	margin: auto;
+  background-color: white;
 }
 
 .milestone-circle {
@@ -51,11 +85,12 @@ body, html {
 .d3-tip
 {
 	line-height: 1;
-	font-weight: bold;
+  font-size: 12px; 
 	padding: 12px;
 	background: rgba(255, 255, 255, 0.8);
-  	color: black;
+  color: black;
 	border-radius: 2px;
+  text-align: center;
 }
 
 .d3-tip:after
@@ -110,6 +145,7 @@ body, html {
 
 #intro-text {
 	text-align: center;
+  color: #E1DFDD;
 }
 
 #sentiment-line {
@@ -123,7 +159,7 @@ body, html {
 
 .mbtn {
     color: #fff;
-    background-color: #ABB9AB;
+    background-color: #FC5596;
     height: 25px;
     border-radius: 4px;
     cursor: pointer;
@@ -134,7 +170,7 @@ body, html {
 }
 button:disabled {
     color: #fff;
-    background-color: black;
+    background-color: #bbb;
     cursor: default;
 }
 
