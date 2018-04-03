@@ -5,7 +5,7 @@ body, html {
 
 .bg {
     /* The image used */
-    background-image: url("cats1.jpg");
+    background-image: url("https://cdn.rawgit.com/robin-ramos/cats-of-bgc/a3441d60/cats1.jpg");
 
     /* Full height */
     height: 100%; 
@@ -74,6 +74,19 @@ body, html {
 	left: 0;
 }
 
+.ct-btn-scroll {
+  width: 49px;
+  height: 49px;
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 9;
+  border-radius: 50%;
+  -webkit-transition: background-color 0.25s ease-in-out;
+  transition: background-color 0.25s ease-in-out;
+}
 
 #chart1 {
 	text-align: center;
