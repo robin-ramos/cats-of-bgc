@@ -9,6 +9,7 @@ var margin = {top: 20, right: 20, bottom: 30, left: 50},
 var parseTime = d3.timeParse("%Y-%m-%d");
 var formatTime = d3.timeFormat("%d/%m/%Y");
 
+
 var x = d3.scaleTime().range([0, width]);
 var y = d3.scaleLinear().range([height, 0]);
 var y2 = d3.scaleLinear().range([height2, 0]);
@@ -37,7 +38,7 @@ var milestones = [
   {date: parseTime("2016-08-04"), event: "More people posted about the cats in 2016..."},
   {date: parseTime("2017-08-28"), event: "...and in 2017."},
   {date: parseTime("2018-02-16"), event: "A Facebook post by Lucy M went viral. The post with 4.8K and 12K shares tells the story about how Shangri-La BGC ordered Pestbusters to remove the cats from their perimeter. <br> <br> <div class='iframe-container'> <iframe src='https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fmarcellejohn.marcelino%2Fposts%2F10216653759442825&width=350&show_text=true&appId=1488368734536934&height=553' width='350' height='553' style='border:none;overflow:hidden' scrolling='yes' frameborder='0' allowTransparency='true'></iframe></div>"},
-    {date: parseTime("2018-02-18"), event: "Shangri-La BGC posted a statement on their Facebook account. <br><br> <div class='iframe-container'> <iframe src='https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fshangrilafort%2Fphotos%2Fa.996102000419770.1073741828.994986307198006%2F1998901190139841%2F%3Ftype%3D3&width=400&show_text=true&height=496&appId' width='400' height='496' style='border:none;overflow:hidden' scrolling='no' frameborder='0' allowTransparency='true'></iframe></div>"},
+    {date: parseTime("2018-02-18"), event: "Shangri-La BGC posted a statement on their Facebook account. <br><br> <div class='iframe-container'> <iframe src='https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fshangrilafort%2Fphotos%2Fa.996102000419770.1073741828.994986307198006%2F1998901190139841%2F%3Ftype%3D3&width=350&show_text=true&height=452&appId' width='350' height='452' style='border:none;overflow:hidden' scrolling='no' frameborder='0' allowTransparency='true'></iframe></div>"},
   {date: parseTime("2018-02-19"), event: "Inquirer.net posted an <a href='http://newsinfo.inquirer.net/969674/loss-of-taguig-park-cats-sparks-outcry' target='_blank'>article</a> about the issue."},
   {date: parseTime("2018-03-01"), event: "Event 7"}];
 
@@ -159,8 +160,8 @@ d3.csv("catsofbgc.csv", function(error, data) {
     .attr("x2", 0).attr("y2", height2)
     .selectAll("stop")
     .data([
-      {offset: "0%", color: "#D5F5E3"},
-      {offset: "50%", color: "#D5F5E3"},
+      {offset: "0%", color: "#737A81"},
+      {offset: "50%", color: "#737A81"},
       {offset: "50%", color: "#F1948A"},
       {offset: "100%", color: "#F1948A"}
     ])
@@ -242,7 +243,7 @@ d3.csv("allposts.csv", function(error, data) {
         else { //if value is hide       
         }})          
     .on("mouseout", function(d) {  
-        d3.select(this).transition().attr('r',5);
+        d3.select(this).transition().attr('r',3);
         if (this.getAttribute("value") == "show") {
           d3.select(this).style("cursor","default")
           if (d.platform == "tw") {
@@ -349,7 +350,7 @@ function nextStep() {
       .attr("class", "milestone-circle")
       .attr("cx", function (d) { return x(d.time) } )
       .attr("cy", function (d) { return y2(d.score) } )
-      .attr("r", 4)
+      .attr("r", 2)
       .style("fill-opacity", 0)        
       .style("stroke-opacity", 0);
 
@@ -358,7 +359,7 @@ function nextStep() {
       .attr("class", "milestone-circle")
       .attr("cx", function (d) { return x(d.time) } )
       .attr("cy", function (d) { return y(d.count) } )
-      .attr("r", 4)
+      .attr("r", 2)
       .style("fill-opacity", 0)        
       .style("stroke-opacity", 0)   
       .style("cursor", "pointer")   
