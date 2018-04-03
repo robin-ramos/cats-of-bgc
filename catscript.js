@@ -27,7 +27,7 @@ var valueline = d3.line()
 var sentimentline = d3.line()
     .x(function(d) { return x(d.time); })
     .y(function(d) { return y2(d.score); })
-    .curve(d3.curveMonotoneX)
+    //.curve(d3.curveMonotoneX)
 
 var tooltip = d3.select("#post").append("div") 
     .attr("class", "tooltip")       
@@ -40,7 +40,7 @@ var milestones = [
   {date: parseTime("2018-02-16"), event: "A Facebook post by Lucy M went viral. The post with 4.8K and 12K shares tells the story about how Shangri-La BGC ordered Pestbusters to remove the cats from their perimeter. <br> <br> <div class='iframe-container'> <iframe src='https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fmarcellejohn.marcelino%2Fposts%2F10216653759442825&width=350&show_text=true&appId=1488368734536934&height=553' width='350' height='553' style='border:none;overflow:hidden' scrolling='yes' frameborder='0' allowTransparency='true'></iframe></div>"},
   {date: parseTime("2018-02-18"), event: "Shangri-La BGC posted a statement on their Facebook account. <br><br> <div class='iframe-container'> <iframe src='https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fshangrilafort%2Fphotos%2Fa.996102000419770.1073741828.994986307198006%2F1998901190139841%2F%3Ftype%3D3&width=350&show_text=true&height=452&appId' width='350' height='452' style='border:none;overflow:hidden' scrolling='no' frameborder='0' allowTransparency='true'></iframe></div>"},
   {date: parseTime("2018-02-19"), event: "Inquirer.net posted an <a href='http://newsinfo.inquirer.net/969674/loss-of-taguig-park-cats-sparks-outcry' target='_blank'>article</a> about the issue."},
-  {date: parseTime("2018-03-01"), event: "Event 7"}];
+  {date: parseTime("2018-03-31"), event: "Event 7"}];
 
 var nextMilestone = -1;
 var transitionDuration = 2000;
@@ -143,7 +143,7 @@ d3.csv("catsofbgc.csv", function(error, data) {
   dataMilestone = data;
 
   x.domain(d3.extent(data, function(d) { return d.time; }));
-  y2.domain([-1,1]);
+  y2.domain([-5,5]);
 
   svg2.append("clipPath")
     .attr("id", "clip-sentiment")
@@ -234,12 +234,9 @@ d3.csv("allposts.csv", function(error, data) {
         d3.select(this).transition().attr('r',8);
         if (this.getAttribute("value") == "show") {
           d3.select(this).style("cursor","pointer")
-          if (d.platform == "tw") {
             reload();
-            loadTweet2(d.id);}
-          else if (d.platform == "ig") {
-            reload();
-            loadIg(d.link)}}
+            loadTweet2(d.id);
+            console.log(d.id)}
         else { //if value is hide       
         }})          
     .on("mouseout", function(d) {  
