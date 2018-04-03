@@ -1,0 +1,97 @@
+.step {
+  height: 25px;
+  width: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.line {
+  fill: none;
+  stroke: #212F3D;
+  stroke-width: 2px;
+}
+
+.iframe-container {
+	height: 400px;
+	width: 375px;
+	overflow-y: auto;
+	margin: auto;
+}
+
+.milestone-circle {
+  fill: white;
+  stroke: #212F3D;
+}
+
+.d3-tip
+{
+	line-height: 1;
+	font-weight: bold;
+	padding: 12px;
+	background: rgba(255, 255, 255, 0.8);
+  	color: black;
+	border-radius: 2px;
+}
+
+.d3-tip:after
+{
+	box-sizing: border-box;
+	display: inline;
+	font-size: 10px;
+	width: 100%;
+	line-height: 1;
+	color: rgba(255, 255, 255, 0.8);
+	content: "\25BC";
+	position: absolute;
+	text-align: center;
+}
+
+.d3-tip.n:after
+{
+	margin: -1px 0 0 0;
+	top: 100%;
+	left: 0;
+}
+
+
+#chart1 {
+	text-align: center;
+}
+
+#chart2 {
+	text-align: center;
+}
+
+#chart3 {
+	text-align: center;
+}
+
+#newdiv {
+	text-align: center;
+}
+
+#intro-text {
+	text-align: center;
+}
+
+#sentiment-line {
+	stroke:none;
+}
+
+#smpost {
+	text-align: center;
+}
+
+#milestone-btn {
+	color: #fff;
+    background-color: #ABB9AB;
+    height: 25px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 60px;
+    border: 0;
+    margin-right: 19px;
+    float: left;
+}
+
