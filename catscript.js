@@ -43,7 +43,7 @@ var milestones = [
   {date: parseTime("2018-03-01"), event: "Event 7"}];
 
 var nextMilestone = 0;
-var transitionDuration = 1000;
+var transitionDuration = 2000;
 var dataMilestone = {}; 
 var dataMilestoneScatter = {};
 var keywords = {};
@@ -269,11 +269,11 @@ function nextStep() {
 
   if (milestones.length == nextMilestone) {
     svg2.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(1000)
+      .transition().duration(2000)
       .attr("width",0);
 
     svg.selectAll("#clip-popularity").selectAll("rect")
-      .transition().duration(1000)
+      .transition().duration(2000)
       .attr("width",0);  
 
     svg3.selectAll("circle")
@@ -301,17 +301,17 @@ function nextStep() {
     svg2.selectAll(".circle-label").remove();
 
     svg2.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(1000)
+      .transition().duration(2000)
       .attr("width", x(milestones[nextMilestone].date) );
 
     svg.selectAll("#clip-popularity").selectAll("rect")
-      .transition().duration(1000)
+      .transition().duration(2000)
       .attr("width", x(milestones[nextMilestone].date) );
 
     svg3.selectAll("circle")
       .filter(function(d){return d.time <= milestones[nextMilestone].date})
       .transition()
-      .duration(1000)
+      .duration(2000)
       .style("fill-opacity", 0.5)
       .attr("value", "show");
   
@@ -373,13 +373,13 @@ function nextStep() {
 
     milestonePoint.selectAll("#circle-milestone-" + nextMilestone)
       .transition()
-      .duration(1000)
+      .duration(2000)
       .style("stroke-opacity", 0.9)
       .style("fill-opacity", 0.9);
 
     milestonePoint2.selectAll("#circle-milestone2-" + nextMilestone)
       .transition()
-      .duration(1000)
+      .duration(2000)
       .style("stroke-opacity", 0.9)
       .style("fill-opacity", 0.9);
 
@@ -420,7 +420,7 @@ d3.csv("keywords.csv", function(error,data) {
   y1.domain(keywords.map(function(d) { return d.word; })).padding(0.2);
   
 
-  svg4.selectAll(".bar")
+  var bar = svg4.selectAll(".bar")
         .data(keywords)
       .enter().append("rect")
         .attr("class", "bar")
