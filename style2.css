@@ -19,9 +19,29 @@ h4 {
     text-align: center;
 }
 
+#intro-post{
+	height: 100%; 
+}
+
+.ct-btn-scroll {
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 9;
+  border-radius: 50%;
+  -webkit-transition: background-color 0.25s ease-in-out;
+  transition: background-color 0.25s ease-in-out;
+  margin-bottom: 11%;
+}
+
+#arrow {
+	height: 50px;
+}
+
 .step {
 	height: 100px;
 	padding-right: 60px;
+	padding-top: 30px;
 	text-align: justify;
 }
 
@@ -62,12 +82,15 @@ h4 {
   margin-right: 2px;
 }
 
-
-#tweetdiv {
-	background: rgba(0, 0, 0, 0.5);
-}
-
 #intro-post {
 	margin: 20px;
 	text-align: center;
+}
+
+#tweetdiv {
+  position: fixed;
+  width: 400px;
+  height: 300px;
+  left: 35%;
+  top: 15%;
 }
