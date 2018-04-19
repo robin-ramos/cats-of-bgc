@@ -56,6 +56,22 @@ d3.csv("catsofbgc.csv", function(error, data) {
     .attr("height", 0)
     .attr("transform", "translate(-40,0)");
 
+  sentimentsvg.append("linearGradient")
+    .attr("id", "color-gradient")
+    .attr("gradientUnits", "userSpaceOnUse")
+    .attr("x1", 0).attr("y1", 0)
+    .attr("x2", 30).attr("y2", 0)
+    .selectAll("stop")
+    .data([
+      {offset: "0%", color: "#C70039"},
+      {offset: "50%", color: "#C70039"},
+      {offset: "50%", color: "#737A81"},
+      {offset: "100%", color: "#737A81"}
+    ])
+    .enter().append("stop")
+    .attr("offset", function(d) { return d.offset; })
+    .attr("stop-color", function(d) { return d.color; });
+
   sentimentsvg.append("g")
       .attr("class", "axisLine")
       .attr("transform", "translate(" + sentiment_width/4 + ",0)")
@@ -72,7 +88,8 @@ d3.csv("catsofbgc.csv", function(error, data) {
       .attr("clip-path", "url(#clip-sentiment)")
       .attr("class", "line")
       .attr("id", "sentiment-line")
-      .attr("d", sentimentvertline);
+      .attr("d", sentimentvertline)
+      .style("stroke", "url(#color-gradient)");
 
     var sentiment_tip = d3.tip()
       .attr("class", "d3-tip")
