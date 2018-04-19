@@ -1,6 +1,8 @@
+* {
+	  font-family: 'Libre Franklin', sans-serif;
+}
 body {
   color: #E1DFDD;
-  font-family: sans-serif;
   font-size: 8px;
 }
 
@@ -11,16 +13,16 @@ path.line {
 }
 h1 {
 	width: 100%;
-    text-align: center;
 }
 
 h4 {
 	width: 100%;
-    text-align: center;
 }
 
 #intro-post{
 	height: 100%; 
+	margin: 20px;
+	padding: 5%;
 }
 
 .ct-btn-scroll {
@@ -31,7 +33,7 @@ h4 {
   border-radius: 50%;
   -webkit-transition: background-color 0.25s ease-in-out;
   transition: background-color 0.25s ease-in-out;
-  margin-bottom: 11%;
+  margin-bottom: 5%;
 }
 
 #arrow {
@@ -82,10 +84,6 @@ h4 {
   margin-right: 2px;
 }
 
-#intro-post {
-	margin: 20px;
-	text-align: center;
-}
 
 #tweetdiv {
   position: fixed;
