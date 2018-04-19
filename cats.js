@@ -3,7 +3,7 @@
 var robin;
 var allposts;
 var margin = {top: 30, right: 20, bottom: 30, left: 70};
-var height = 5000 - margin.top - margin.bottom; //global height
+var height = 6000 - margin.top - margin.bottom; //global height
 
 var formatDate = d3.timeFormat("%B %d, %Y");  
 var formatDecimal = d3.format(".2f");
@@ -151,7 +151,7 @@ d3.csv("allposts.csv", function(error, data) {
       d.link = d.link;
       d.platform = d.platform;
       d.sentiment = +d.score;
-      d.followers =  Math.pow(Math.log10(+d.followers_count+1),2);
+      d.followers =  Math.pow(Math.log10(+d.followers_count+1),2) + 1;
       d.followers_count = +d.followers_count;
       })
 
