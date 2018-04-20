@@ -1,8 +1,10 @@
 * {
 	  font-family: 'Libre Franklin', sans-serif;
 }
+
+
 body {
-  color: #E1DFDD;
+  color: white;
   font-size: 8px;
 }
 
@@ -95,8 +97,16 @@ h4 {
 .axisLine text {
   font-size: 25px;
   margin-right: 2px;
+  color: white;
 }
 
+.axisLine line {
+ stroke: #ABB2B9;
+}
+
+.axisLine path {
+ stroke: #ABB2B9;
+}
 
 #tweetdiv {
   position: fixed;
