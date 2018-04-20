@@ -1,5 +1,6 @@
 * {
-	  font-family: 'Libre Franklin', sans-serif;
+	  /*font-family: 'Libre Franklin', sans-serif;*/
+	  font-family: 'Montserrat', sans-serif;
 }
 
 
@@ -21,11 +22,26 @@ h4 {
 	width: 100%;
 }
 
+.header {
+	font-family: 'Libre Franklin', sans-serif;	
+}
+
 #intro-post{
 	height: 100%; 
 	margin: 20px;
 	padding: 5%;
 }
+
+#hero-title{
+  position: absolute;
+  left: 0;
+  top: 40%;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+}
+
 
 .bg {
     /* The image used */
@@ -35,6 +51,7 @@ h4 {
     height: 100%; 
 
     /* Center and scale the image nicely */
+    background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -102,10 +119,12 @@ h4 {
 
 .axisLine line {
  stroke: #ABB2B9;
+ opacity: 0.8;
 }
 
 .axisLine path {
  stroke: #ABB2B9;
+ opacity: 0.8;
 }
 
 #tweetdiv {
@@ -113,7 +132,7 @@ h4 {
   width: 400px;
   height: 300px;
   left: 35%;
-  top: 15%;
+  bottom: : 15%;
 }
 
 div.card {

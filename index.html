@@ -2,15 +2,21 @@
 <head>
   <link rel="stylesheet" type="text/css" href="style2.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/css?family=Libre+Franklin" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Libre+Franklin|Montserrat" rel="stylesheet">
 
 </head>
 <body style=" background-color: #253634;">
-  <div class="bg"></div>
+  <div class="bg">
+    <div id="hero-title"> <a class="header"> TWITTENS</a> <br>
+    A Twitter-powered data story about <br>
+    #CatsOfBGC<br><br>
+    <img src="logo.png" style="width: 80px"> </div>
+
+  </div>
   <div class="row" id="intro-post" style="color: white;">
     <div>
-    <h1>Twittens</h1>
-    <h3>A Twitter-powered data story about the Cats of BGC</h3><br>
+    <h1 class="header">Twittens</h1>
+    <h3 class="header">A Twitter-powered data story about the Cats of BGC</h3><br>
     What is 'Cats of BGC'?<br>
 Cats of BGC was a hot topic in the Philippines during the first quarter of 2018, most notably as a hashtag
 (#catsofbgc) on Twitter.<br>
@@ -128,7 +134,8 @@ var waypoint4 = new Waypoint({
   handler: function(direction) {
     if (direction=="down") {
       step4(allposts);
-      updateScatterAxis(allposts);}
+      // updateScatterAxis(allposts);
+    }
   }
 })
 
