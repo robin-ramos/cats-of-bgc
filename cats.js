@@ -53,7 +53,8 @@ var sentimentsvg = chartsvg
 var axissvg = d3.select("#axes")
     .append("svg")       
         .attr("width", sentiment_width + margin.left + margin.right + scatter_width)
-        .attr("height", 20)
+        .attr("height", 200)
+        .style("position", "absolute")
 
 d3.csv("catsofbgc.csv", function(error, data) {
   if (error) throw error; 
@@ -122,8 +123,8 @@ d3.csv("catsofbgc.csv", function(error, data) {
       .offset([30, 130])
       .html(function(d)
       {
-        return "Net sentiment on <br><b>" + formatDate(d.time) + "</b><br>"
-        +  "is " + d.sign;
+        return "<div align='left' style='line-height: 1.3'>Net sentiment on <br><b>" + formatDate(d.time) + "</b><br>"
+        +  "is " + d.sign + "</div>";
       });
 
   sentimentsvg.call(sentiment_tip)
@@ -168,19 +169,24 @@ var scatter_svg = chartsvg.append("svg")
           "translate(" + (sentiment_width + margin.left + margin.right +  margin.left) + "," + margin.top/2 + ")");
 
 
-d3.csv("allposts.csv", function(error, data) {
+d3.csv("allposts3.csv", function(error, data) {
   if (error) throw error; 
   allposts = data;
 
   data.forEach(function(d) {
       d.time = parseTime(d.time);
-      d.popularity = +d.pop_score;
+      d.popularity = +d.pop_score + 0.5;
       d.popularity_jittered = d.popularity + Math.random();
       d.link = d.link;
       d.platform = d.platform;
       d.sentiment = +d.score;
       d.followers =  Math.pow(Math.log10(+d.followers_count+1),2) + 1;
       d.followers_count = +d.followers_count;
+      d.fave = +d.fave;
+      d.retweet = +d.rt;
+      d.username = d.username;
+      d.id = d.id;
+      console.log(d.id)
       })
 
   scatter_y.domain(d3.extent(data, function(d) { return d.time; }));
@@ -293,9 +299,9 @@ d3.csv("allposts.csv", function(error, data) {
       .offset([50, 170])
       .html(function(d)
       {
-        return "<div align='left'>Username (<b>" + formatComma(d.followers_count) + " followers</b>) <br> tweeted on <b>" 
-        + formatDate(d.time) + "</b> <br> with a sentiment score of <b>" + formatDecimal(d.sentiment) + "</b>.<br>" 
-        + "Likes: " + "<br>Retweets:</div>"
+        return "<div align='left' style='line-height: 1.3'>@" + d.username + " (" + formatComma(d.followers_count) + " followers) <br> tweeted on <b>" 
+        + formatDate(d.time) + "</b> <br> with a sentiment score of <b>" + formatDecimal(d.sentiment) + "</b>.<br><br>" 
+        + "Likes: " + d.fave + "<br>Retweets: " + d.retweet + "</div>"
         ;
       });
 
@@ -307,7 +313,7 @@ d3.csv("allposts.csv", function(error, data) {
     .enter().append("circle")
     .attr("class", "scatterplots")
     .attr("r", 0 )
-    .attr("cx", function(d) { return scatter_x(d.popularity_jittered); })
+    .attr("cx", function(d) { return scatter_x(d.popularity); })
     .attr("cy", function(d) { return scatter_y(d.time); })
     .attr("fill-opacity", 0.3)
     .style("fill", function(d) { if (d.sentiment < 0) {return '#C70039'} else {return '#858687'}})
@@ -323,9 +329,12 @@ d3.csv("allposts.csv", function(error, data) {
       reload();
       });
 
-  var color_legends = scatter_svg.append("g")
+  scatter_svg.append("div")
+      .attr("class","color-div")
+
+  var color_legends = axissvg.append("g")
       .attr("class", "color-legend")
-      .attr("transform", "translate(100,40)");
+      .attr("transform", "translate(300,60)");
 
   color_legends.append("circle")
     .attr("class", "legend")
@@ -358,9 +367,9 @@ d3.csv("allposts.csv", function(error, data) {
     .style("fill", "#ABB2B9")
     .text("Negative sentiment");
 
-  var size_legends = scatter_svg.append("g")
+  var size_legends = axissvg.append("g")
       .attr("class", "size-legend")
-      .attr("transform", "translate(110,60)");
+      .attr("transform", "translate(320,80)");
 
   size_legends.append("circle") //500 followers
     .attr("class", "legend")
@@ -541,7 +550,7 @@ function step5(data){ // Adding kindle to the fire
 }
 
 function updateScatterAxis(data) {
-  scatter_x.domain([0, d3.max(data, function(d) { return d.popularity_jittered; }) + 10]);
+  scatter_x.domain([0, d3.max(data, function(d) { return d.popularity; }) + 10]);
   scatter_svg.selectAll(".scatterplots").transition().duration(2000).attr("cx", function(d) { 
-      return scatter_x(d.popularity_jittered);});
+      return scatter_x(d.popularity);});
 }
