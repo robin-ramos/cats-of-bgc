@@ -91,10 +91,6 @@ Scroll down to explore the Cats of BGC story.
     </div>
 
 
-    <div class="step card" id="step6" style="margin-top: 2000px">
-      <div class="card-header"> Update axis </div>
-      
-    </div>
   </div>
 </div>
 </div>
@@ -149,6 +145,7 @@ var waypoint5 = new Waypoint({
 $(window).scroll(function() {
    if($(window).scrollTop() + $(window).height() == $(document).height()) {
       updateScatterAxis(allposts);
+      console.log("print")
    }
 });
 

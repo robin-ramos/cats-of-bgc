@@ -42,6 +42,12 @@ var area = d3.area()
     .y1(function(d) { return sentiment_y(0); })
     .curve(d3.curveMonotoneX);
 
+var axissvg = d3.select("#axes")
+    .append("svg")       
+        .attr("width", sentiment_width + margin.left + margin.right + scatter_width)
+        .attr("height", 150)
+        .style("position", "absolute")
+
 var sentimentsvg = chartsvg
     .append("svg")
     .attr("width", sentiment_width + margin.left + margin.right)
@@ -50,11 +56,6 @@ var sentimentsvg = chartsvg
     .attr("transform",
           "translate(" + margin.left + "," + margin.top/2 + ")");
 
-var axissvg = d3.select("#axes")
-    .append("svg")       
-        .attr("width", sentiment_width + margin.left + margin.right + scatter_width)
-        .attr("height", 200)
-        .style("position", "absolute")
 
 d3.csv("catsofbgc.csv", function(error, data) {
   if (error) throw error; 
@@ -369,7 +370,7 @@ d3.csv("allposts3.csv", function(error, data) {
 
   var size_legends = axissvg.append("g")
       .attr("class", "size-legend")
-      .attr("transform", "translate(320,80)");
+      .attr("transform", "translate(320,70)");
 
   size_legends.append("circle") //500 followers
     .attr("class", "legend")
