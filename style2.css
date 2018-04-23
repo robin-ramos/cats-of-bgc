@@ -35,7 +35,7 @@ h4 {
 #hero-title{
   position: absolute;
   left: 0;
-  top: 40%;
+  top: 50%;
   width: 100%;
   text-align: center;
   color: white;
@@ -118,13 +118,18 @@ h4 {
 }
 
 .axisLine line {
- stroke: #ABB2B9;
- opacity: 0.8;
+ stroke: black;
+ opacity: 0.5;
 }
 
 .axisLine path {
- stroke: #ABB2B9;
- opacity: 0.8;
+ stroke: black;
+ opacity: 0.5;
+}
+
+#axes {
+	position: sticky;
+	top: 20;
 }
 
 #tweetdiv {
@@ -132,7 +137,7 @@ h4 {
   width: 400px;
   height: 300px;
   left: 35%;
-  bottom: : 15%;
+  top: 15%;
 }
 
 div.card {

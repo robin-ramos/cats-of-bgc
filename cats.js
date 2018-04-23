@@ -23,7 +23,7 @@ var scatter_width = 900 - margin.left - margin.right;
 var chartsvg = d3.select("#svg-div")
     .append("svg")
     .attr("width", scatter_width + sentiment_width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", height + margin.bottom)
     .append("g");
 
 // Sentiment Chart 
@@ -42,7 +42,12 @@ var sentimentsvg = chartsvg
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+          "translate(" + margin.left + "," + margin.top/2 + ")");
+
+var axissvg = d3.select("#axes")
+    .append("svg")       
+        .attr("width", sentiment_width + margin.left + margin.right + scatter_width)
+        .attr("height", 20)
 
 d3.csv("catsofbgc.csv", function(error, data) {
   if (error) throw error; 
@@ -86,12 +91,14 @@ d3.csv("catsofbgc.csv", function(error, data) {
       .attr("transform", "translate(" + sentiment_width/4 + ",0)")
       .call(d3.axisLeft(sentiment_y).tickSizeOuter(0));
 
-  sentimentsvg.append("text")
-      .attr("y", -10)
-      .attr("x", -25)
+
+  axissvg.append("text")
+      .attr("y", 15)
+      .attr("x", 25)
       .style("font-size", "15px")
       .style("fill", "#ABB2B9")
-      .text("- Sentiment +");
+      .text("- Sentiment +")
+      .attr("id", "sentiment_axis");
 
   sentimentsvg.append("text")
       .attr("y", -9)
@@ -157,7 +164,7 @@ var scatter_svg = chartsvg.append("svg")
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform",
-          "translate(" + (sentiment_width + margin.left + margin.right +  margin.left) + "," + margin.top + ")");
+          "translate(" + (sentiment_width + margin.left + margin.right +  margin.left) + "," + margin.top/2 + ")");
 
 
 d3.csv("allposts.csv", function(error, data) {
@@ -188,40 +195,26 @@ d3.csv("allposts.csv", function(error, data) {
       .attr("class", "axisLine")
       .call(d3.axisLeft(scatter_y).tickSizeOuter(0));
 
-  scatter_svg.append("text")
-      .attr("y", -10)
-      .attr("x", -14)
+
+  axissvg.append("text")
+      .attr("y", 15)
+      .attr("x", 50 + sentiment_width + margin.left*2)
       .style("font-size", "15px")
       .style("fill", "#ABB2B9")
       .text("Popularity score ");
 
-  scatter_svg.append("text")
-      .attr("y", -10)
-      .attr("x", 110)
+  axissvg.append("text")
+      .attr("y", 15)
+      .attr("x", 40 + sentiment_width + margin.left*4)
       .style("font-size", "10px")
       .style("fill", "#ABB2B9")
-      .text("(likes + retweets)")
-      .attr("transform", "translate(0, " + (height + 25) + ")" );      
-
-  scatter_svg.append("text")
-      .attr("y", -10)
-      .attr("x", -14)
-      .style("font-size", "15px")
-      .style("fill", "#ABB2B9")
-      .text("Popularity score ")
-      .attr("transform", "translate(0, " + (height + 25) + ")" );
-
-  scatter_svg.append("text")
-      .attr("y", -10)
-      .attr("x", 110)
-      .style("font-size", "10px")
-      .style("fill", "#ABB2B9")
-      .text("(likes + retweets)");
+      .text("(likes + retweets)");      
 
   chartsvg.append("g")
      .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2012-02-30")) + margin.top)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
+     .style("opacity", 0.2)
      .style("stroke", "#ABB2B9")
      .style("stroke-width", "1px");
 
@@ -229,6 +222,7 @@ d3.csv("allposts.csv", function(error, data) {
     .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2012-02-30"))+15 + margin.top) +")")
     .style("font-size", "50px")
     .style("fill", "#ABB2B9")
+    .style("fill-opacity", 0.2)
     .text("2012");
 
   chartsvg.append("g")
@@ -236,11 +230,13 @@ d3.csv("allposts.csv", function(error, data) {
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
      .style("stroke", "#ABB2B9")
+     .style("opacity", 0.2)
      .style("stroke-width", "1px");
 
   chartsvg.append("text")
     .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2013-01-01"))+15 + margin.top) +")")
     .style("font-size", "50px")
+    .style("fill-opacity", 0.2)
     .style("fill", "#ABB2B9")
     .text("2013");
 
@@ -248,12 +244,14 @@ d3.csv("allposts.csv", function(error, data) {
      .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2014-01-01")) + margin.top)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
+     .style("opacity", 0.2)
      .style("stroke", "#ABB2B9")
      .style("stroke-width", "1px");
 
   chartsvg.append("text")
     .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2014-01-01"))+15 + margin.top) +")")
     .style("font-size", "50px")
+    .style("fill-opacity", 0.2)
     .style("fill", "#ABB2B9")
     .text("2014");
 
@@ -261,12 +259,14 @@ d3.csv("allposts.csv", function(error, data) {
      .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2015-01-01")) + margin.top)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
+     .style("opacity", 0.2)
      .style("stroke", "#ABB2B9")
      .style("stroke-width", "1px");
 
   chartsvg.append("text")
     .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2015-01-01"))+15 + margin.top) +")")
     .style("font-size", "50px")
+    .style("fill-opacity", 0.2)
     .style("fill", "#ABB2B9")
     .text("2015");
 
@@ -274,12 +274,14 @@ d3.csv("allposts.csv", function(error, data) {
      .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2016-01-01")) + margin.top) +")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
+     .style("opacity", 0.2)
      .style("stroke", "#ABB2B9")
      .style("stroke-width", "1px");
 
   chartsvg.append("text")
     .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2016-01-01"))+15 + margin.top) +")")
     .style("font-size", "50px")
+    .style("fill-opacity", 0.2)
     .style("fill", "#ABB2B9")
     .text("2016");
 
@@ -287,12 +289,14 @@ d3.csv("allposts.csv", function(error, data) {
      .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2017-01-01")) + margin.top)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
+     .style("opacity", 0.2)
      .style("stroke", "#ABB2B9")
      .style("stroke-width", "1px");
 
   chartsvg.append("text")
     .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2017-01-01"))+15  + margin.top) +")")
     .style("font-size", "50px")
+    .style("fill-opacity", 0.2)
     .style("fill", "#ABB2B9")
     .text("2017");
 
@@ -300,12 +304,14 @@ d3.csv("allposts.csv", function(error, data) {
      .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2018-01-01")) + margin.top)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
+     .style("opacity", 0.2)
      .style("stroke", "#ABB2B9")
      .style("stroke-width", "1px");
 
   chartsvg.append("text")
     .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2018-01-01"))+15  + margin.top) +")")
     .style("font-size", "50px")
+    .style("fill-opacity", 0.2)
     .style("fill", "#ABB2B9")
     .text("2018");
 
@@ -314,8 +320,10 @@ d3.csv("allposts.csv", function(error, data) {
       .offset([50, 170])
       .html(function(d)
       {
-        return "Username (<b>" + formatComma(d.followers_count) + " followers</b>) tweeted on <br><b>" 
-        + formatDate(d.time) + "</b>, with a sentiment score of <b>" + formatDecimal(d.sentiment) + "</b>." ;
+        return "<div align='left'>Username ( <b>" + formatComma(d.followers_count) + " followers</b>) <br> tweeted on <b>" 
+        + formatDate(d.time) + "</b> <br> with a sentiment score of <b>" + formatDecimal(d.sentiment) + "</b>.<br>" 
+        + "Likes: " + "<br>Retweets:</div>"
+        ;
       });
 
 
