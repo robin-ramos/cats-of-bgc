@@ -7,6 +7,7 @@
 body {
   color: white;
   font-size: 8px;
+  overflow-x: hidden;
 }
 
 path.line {
@@ -22,6 +23,11 @@ h4 {
 	width: 100%;
 }
 
+.no-container {
+    margin-left: 0 !important;
+    margin-right: -100 !important; 
+}
+
 .header {
 	font-family: 'Libre Franklin', sans-serif;	
 }
@@ -35,7 +41,7 @@ h4 {
 #hero-title{
   position: absolute;
   left: 0;
-  top: 50%;
+  top: 30%;
   width: 100%;
   text-align: center;
   color: white;
@@ -119,12 +125,20 @@ h4 {
 
 .axisLine line {
  stroke: black;
- opacity: 0.5;
+ opacity: 0.2;
 }
 
 .axisLine path {
  stroke: black;
- opacity: 0.5;
+ opacity: 0.2;
+}
+
+.timeLine {
+	opacity: 0.2;
+	stroke: #ABB2B9;
+	stroke-width: 1px;
+	font-size: 50px;
+	fill: #ABB2B9;
 }
 
 #axes {
@@ -134,10 +148,10 @@ h4 {
 
 #tweetdiv {
   position: fixed;
-  width: 400px;
+  width: 550px;
   height: 300px;
   left: 35%;
-  top: 15%;
+  top: 10px;
 }
 
 div.card {
