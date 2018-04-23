@@ -94,6 +94,7 @@ h4 {
   color: white;
 	border-radius: 2px;
   text-align: center;
+  z-index: 3;
 }
 
 .d3-tip:before
@@ -158,6 +159,7 @@ h4 {
   height: 300px;
   left: 35%;
   top: 10px;
+  z-index: 1;
 }
 
 div.card {
