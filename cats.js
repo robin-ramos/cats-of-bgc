@@ -48,6 +48,16 @@ var axissvg = d3.select("#axes")
         .attr("height", 150)
         .style("position", "absolute")
 
+var date_text = axissvg.append("g")
+    .attr("class", "date-text");
+
+  date_text.append("text")
+    .attr("y", -13)
+    .attr("x", scatter_width/2 + 10)
+    .style("font-size", "12px")
+    .style("fill", "#ABB2B9")
+    .text("date")
+
 var sentimentsvg = chartsvg
     .append("svg")
     .attr("width", sentiment_width + margin.left + margin.right)
@@ -102,7 +112,7 @@ d3.csv("catsofbgc.csv", function(error, data) {
 
   axissvg.append("text")
       .attr("y", 15)
-      .attr("x", 25)
+      .attr("x", 85)
       .style("font-size", "15px")
       .style("fill", "#ABB2B9")
       .text("- Sentiment +")
@@ -206,14 +216,14 @@ d3.csv("allposts3.csv", function(error, data) {
 
   axissvg.append("text")
       .attr("y", 15)
-      .attr("x", 50 + sentiment_width + margin.left*2)
+      .attr("x", 110 + sentiment_width + margin.left*2)
       .style("font-size", "15px")
       .style("fill", "#ABB2B9")
-      .text("Popularity score ");
+      .text("Popularity ");
 
   axissvg.append("text")
       .attr("y", 15)
-      .attr("x", 40 + sentiment_width + margin.left*4)
+      .attr("x", 100 + sentiment_width + margin.left*4)
       .style("font-size", "10px")
       .style("fill", "#ABB2B9")
       .text("(likes + retweets)");      
