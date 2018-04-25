@@ -1,150 +1,193 @@
 <html>
+
 <head>
-  <link rel="stylesheet" type="text/css" href="style2.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css?family=Libre+Franklin|Montserrat" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="style2.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Libre+Franklin|Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Serif:300" rel="stylesheet">
 </head>
+
 <body style=" background-color: #253634;">
-  <div class="bg">
-    <div id="hero-title"> <a class="header"> TWITTENS</a> <br>
-    A Twitter-powered data story about <br>
-    #CatsOfBGC<br><br>
-    <img src="logo.png" style="width: 80px"> </div>
+    <div class="bg container-fluid">
+        <div id="hero-title"> <a class="header"> TWITTENS</a>
+            <br> A Twitter-powered data story about
+            <br> #CatsOfBGC
+            <br>
+            <br>
+            <img src="logo.png" style="width: 80px"> </div>
+    </div>
+    <div class="row" id="intro-post" style="color: white;">
+        <div>
+            <h1 class="header">Twittens</h1>
+            <h3 class="header">A Twitter-powered data story about the Cats of BGC</h3>
+            <br> What is 'Cats of BGC'?
+            <br> Cats of BGC was a hot topic in the Philippines during the first quarter of 2018, most notably as a hashtag (#catsofbgc) on Twitter.
+            <br> Serious animal-rights advocates used the hashtag to promote the welfare of the stray-cat population in Bonifacio Global City (BGC), a business and commercial district in Metro Manila. Casual feline aficionados used it to tag lighthearted selfies with the cats. And attention-seekers and like/retweet- collectors used the hashtag simply to jump on the bandwagon.
+            <br>
+            <br> DataSeer recently mined posts from Twitter about the topic; determined positive or negative sentiment scores for these posts; created a popularity score based on likes and retweets for each post; and visualized this data into an interactive data story.
+            <br>
+            <br> Scroll down to explore the Cats of BGC story.
+        </div>
+        <a class="ct-btn-scroll ct-js-btn-scroll" href="#cards"><img src="arrow.gif" style="height: 50px;"></a>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div id="svg-div"></div>
+            <div id="sentimentchart"></div>
+            <div id="scatterplot"></div>
+            <div id="tweetdiv"></div>
+        </div>
+        <div class="col-md-4" id="cards">
+            <div class="step" id="default">
+                <h3 class="steptitle"> Reality Cat not a real feline </h3>
+                <p>People have been posting about the cats of BGC on social media since 2012. </p>
+                <p>We attempted to scrape all posts that could be relevant to the context of Cats of BGC, even though they did not explicitly contain the hashtag #catsofbgc or the exact phrase 'cats of BGC'. Because of this, we found that before May 2014, 'Cats of BGC' tweets were either fan or hater posts about Catya 'Cat' Washington, cast member from a reality TV show about catty females, Bad Girls Club (BGC).</p>
+                <p>We taut we taw a puddy tat.</p>
+                <div class="blockquote text-right">
+                    <q>
+                        <p>Oxygen always be playing the black girls of BGC to be the "crazy bitches" Tiffany, Kayla, Natalie, Cat, BRANDI, Stasi now <a href="https://twitter.com/LucciVee">@LucciVee</a>.. smh</p>
+                    </q>
+                    <footer class="blockquote-footer"><a href="https://twitter.com/BGCMIAMI/status/227669725063282688?ref_src=twsrc%5Etfw">Brickhouse Stallion</a></footer>
+                </div>
+            </div>
+            <div class="step" id="firsttweet" data-index="1">
+                <h3 class="steptitle"> First real tweet </h3>
+                <p> The first real tweet about actual felines in Bonifacio Global City went up on 12 May 2014. It illustrated that people were passionate about the topic, so we mustn't expect all posts to be positive.</p>
+                <a href="https://pbs.twimg.com/media/BnbSW9rCcAApuo6.jpg"><img class="img-fluid tweet-image mx-auto d-flex" src="firsttweet.jpg"></a>
+                <div class="blockquote text-right">
+                    <q>
+                        <p>Some idiot put handcuffs on the neck of this poor cat. Seen moments ago at BGC 7th cor 32nd near the bus stop. <a href="https://twitter.com/hashtag/PAWS?src=hash">#PAWS</a></p>
+                    </q>
+                    <footer class="blockquote-footer"><a href="https://twitter.com/TJSDaily/status/465790905224404992/photo/1">TJS Daily</a></footer>
+                </div>
+            </div>
+            <div class="step" id="step2">
+                <h3 class="steptitle"> Pats for Fancy Cat </h3>
+                <p>People continued to tweet about the cats of BGC until 2016. Some tweets were more popular and more positive than others. </p>
+                <a href="https://pbs.twimg.com/media/CqUPFV0UEAAFqVB.jpg"><img class="img-fluid tweet-image mx-auto d-flex" src="step2.jpg"></a>
+                <div class="blockquote text-right">
+                    <q>
+                        <p>.<a href="https://twitter.com/darkvice01">@darkvice01</a> boop the snoots of BGC cat. Does anyone know this cat's name? Been calling him fancy cat.</p>
+                    </q>
+                    <footer class="blockquote-footer"><a href="https://twitter.com/audreydomasian/status/767035919207571456/photo/1">Audrey Domasian</a></footer>
+                </div>
+            </div>
+            <div class="step" id="step3">
+                <h3 class="steptitle"> A beeline for felines </h3>
+                <p>The cat-welfare movement in BGC gained greater traction in 2017, as Twitter users with 100K+ followers began tweeting links to blog posts about their advocacy. Serious Trap-Neuter- Vaccinate-Return (TNVR) efforts were underway. And the cats started getting nicknames from their fans.</p>
+                <blockquote class="twitter-tweet" data-lang="en">
+                    <p lang="en" dir="ltr">The Cats of BGC need you!
+                        <br>~ When In Manila Pets &amp; Animals... <a href="https://t.co/8hUrNZHA20">https://t.co/8hUrNZHA20</a></p>&mdash; Manila Philippines (@WhenInManila) <a href="https://twitter.com/WhenInManila/status/930767360629260288?ref_src=twsrc%5Etfw">November 15, 2017</a></blockquote>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+            <div class="step" id="step4">
+                <h3 class="steptitle"> Year of the Cat </h3>
+                <p>As the Chinese Year of the Dog rolled in on 16 Feb 2018, all eyes turned instead to the cats, with a >500-word Facebook post by a certain Lucy M going viral on Twitter and other social media platforms.</p>
+                <p>The post-liked 4.8K times and shared 12K times-told of five-star hotel <b>Shangri-La at the Fort</b> (in BGC) allegedly ordering pest-control company PestBusters to remove alley cats from the hotel's perimeter in the dead of the night. <b>PestBusters</b> allegedly went beyond Shangri-La's perimeter. </p>
+                <p> And both ailurophiles and casual observers raised questions about which cats were affected and what happened to them.</p>
+                <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto.php%3Ffbid%3D10216653759282821%26set%3Da.3441204115272.2169322.1425653758%26type%3D3%26theater&width=400&show_text=false&appId=1488368734536934&height=275" width="400" height="275" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+            </div>
+            <div class="step" id="step5">
+                <h3 class="steptitle"> Adding 'kindle' to the fire </h3>
+                <p>No amount of clarification or third-party reporting in the subsequent days seemed to abate the fire that the alleged Dr. Evils and Mr. Bigglesworths found themselves in.</p>
+                <p>Not this official statement from Shangri-La at the Fort on February 18...</p>
+                <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fshangrilafort%2Fphotos%2Fa.996102000419770.1073741828.994986307198006%2F1998901190139841%2F%3Ftype%3D3&width=300&show_text=false&appId=1488368734536934&height=452" width="300" height="452" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+            </div>
+            <div class="step" id="step6">
+                <p>Not this <a href='http://newsinfo.inquirer.net/969674/loss-of-taguig-park-cats-sparks-outcry' target='_blank'> Inquirer.net report </a> on February 19...</p>
+                <p>Not this personal message from the hotel's General Manager on February 20...</p>
+                <iframe src='https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fweb.facebook.com%2Fshangrilafort%2Fposts%2F2001217123241581%3A0&width=350&show_text=true&appId=1488368734536934&height=144' width='350' height='144' style='border:none;overflow:hidden' scrolling='no' frameborder='0' allowTransparency='true'></iframe>
+            </div>
+            <div class="step" id="step7">
+                <p>Nor this official statement from PestBusters on February 23.</p>
+                <iframe src='https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fweb.facebook.com%2Fzeropests%2Fposts%2F899416996900761&width=350&show_text=true&appId=1488368734536934&height=541' width='350' height='541' style='border:none;overflow:hidden' scrolling='no' frameborder='0' allowTransparency='true'></iframe>
+            </div>
+            <div class="step" id="last-step">
+                <h3 class="steptitle"> Taking a catnap </h3>
+                <p>The only thing, it seemed, that could induce Shangri-La and PestBusters to cough out this 'purr-ball' was time.</p>
+                <p>Because as of April 15, at an average of xx tweets per week with an average sentiment score of xx - compared to a high of xx in February with an average sentiment score of xx - the issue appears to have died down. </p>
+                <p>Have the 'Cats of BGC' issue run its course? Or does it have one more left of its nine lives?</p>
+            </div>
+        </div>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+        <script sync src="https://platform.twitter.com/widgets.js"></script>
+        <script src="noframework.waypoints.min.js"></script>
+        <script type="text/javascript" src="cats.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+        <script src="scroll-down.js"></script>
+        <script type="text/javascript">
+        var waypoint = new Waypoint({
+            element: document.getElementById('firsttweet'),
+            handler: function(direction) {
+                if (direction == "down") {
+                    step1(allposts);
+                }
+            }
+        })
 
-  </div>
-  <div class="row" id="intro-post" style="color: white;">
-    <div>
-    <h1 class="header">Twittens</h1>
-    <h3 class="header">A Twitter-powered data story about the Cats of BGC</h3><br>
-    What is 'Cats of BGC'?<br>
-Cats of BGC was a hot topic in the Philippines during the first quarter of 2018, most notably as a hashtag
-(#catsofbgc) on Twitter.<br>
-Serious animal-rights advocates used the hashtag to promote the welfare of the stray-cat population in
-Bonifacio Global City (BGC), a business and commercial district in Metro Manila. Casual feline
-aficionados used it to tag lighthearted selfies with the cats. And attention-seekers and like/retweet-
-collectors used the hashtag simply to jump on the bandwagon. <br><br>
-DataSeer recently mined posts from Twitter about the topic; determined positive or negative sentiment
-scores for these posts; created a popularity score based on likes and retweets for each post; and
-visualized this data into an interactive data story. <br><br>
-Scroll down to explore the Cats of BGC story.
-</div>
-<a class="ct-btn-scroll ct-js-btn-scroll" href="#cards"><img src="arrow.gif" style="height: 50px;"></a>
-  </div>
-<div class="row" >
-<div class="col-md-8">
-<div id="svg-div"></div>
-<div id="sentimentchart"></div>
-<div id="scatterplot"></div>
-<div id="tweetdiv"></div>
-</div>
-<div class="col-md-4" id="cards">
-  <div class="step card" id="default" style="margin-top: 300px">
-    <div class="card-header"> Reality Cat not a real feline </div>
-    <p>People have been posting about the cats of BGC on social media since 2012. </p>
-    <p>We attempted to scrape all posts that could be relevant to the context of Cats of BGC, even though they did not explicitly contain the hashtag #catsofbgc or the exact phrase 'cats of BGC'. Because of this, we found that before May 2014, 'Cats of BGC' tweets were either fan or hater posts about Catya 'Cat' Washington, cast member from a reality TV show about catty females, Bad Girls Club (BGC).</p>
-    <p>We taut we taw a puddy tat.</p>
-  </div>
-  <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Oxygen always be playing the black girls of BGC to be the &quot;crazy bitches&quot; Tiffany, Kayla, Natalie, Cat, BRANDI, Stasi now <a href="https://twitter.com/LucciVee?ref_src=twsrc%5Etfw">@LucciVee</a>.. smh</p>&mdash; Brickhouse stallion (@BGCMIAMI) <a href="https://twitter.com/BGCMIAMI/status/227669725063282688?ref_src=twsrc%5Etfw">July 24, 2012</a></blockquote>
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        var waypoint2 = new Waypoint({
+            element: document.getElementById('step2'),
+            handler: function(direction) {
+                if (direction == "down") {
+                    step2(allposts);
+                }
+            }
+        })
 
+        var waypoint3 = new Waypoint({
+            element: document.getElementById('step3'),
+            handler: function(direction) {
+                if (direction == "down") {
+                    step3(allposts);
+                }
+            }
+        })
 
-  <div class="step card" id= "firsttweet" style="margin-top: 1300px">
-    <div class="card-header"> First real tweet </div>
-    <p> The first real tweet about actual felines in Bonifacio Global City went up on 12 May 2014. It illustrated that people were passionate about the topic, so we mustn't expect all posts to be positive.</p>
-  </div>
-  <div class='iframe-container'><blockquote class='twitter-tweet' data-lang='en'><p lang='en' dir='ltr'>Some idiot put handcuffs on the neck of this poor cat. Seen moments ago at BGC 7th cor 32nd near the bus stop. <a href='https://twitter.com/hashtag/PAWS?src=hash&amp;ref_src=twsrc%5Etfw'>#PAWS</a> <a href='http://t.co/oXoAA7irNy'>pic.twitter.com/oXoAA7irNy</a></p>&mdash; TJS Daily (@TJSDaily) <a href='https://twitter.com/TJSDaily/status/465790905224404992?ref_src=twsrc%5Etfw'>May 12, 2014</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script> </div>
+        var waypoint4 = new Waypoint({
+            element: document.getElementById('step4'),
+            handler: function(direction) {
+                if (direction == "down") {
+                    step4(allposts);
+                    // updateScatterAxis(allposts);
+                }
+            }
+        })
 
-  <div class="step card" id="step2">
-    <div class="card-header"> Pats for Fancy Cat </div>
-    <p>People continued to tweet about the cats of BGC until 2016. Some tweets were more popular and more positive than others. </p>
-  </div>
-  <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">.<a href="https://twitter.com/darkvice01?ref_src=twsrc%5Etfw">@darkvice01</a> boop the snoots of BGC cat. Does anyone know this cat&#39;s name? Been calling him fancy cat. <a href="https://t.co/GYp7cAtBIh">pic.twitter.com/GYp7cAtBIh</a></p>&mdash; Audrey Domasian ☥ (@audreydomasian) <a href="https://twitter.com/audreydomasian/status/767035919207571456?ref_src=twsrc%5Etfw">August 20, 2016</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        var waypoint5 = new Waypoint({
+            element: document.getElementById('step5'),
+            handler: function(direction) {
+                step5(allposts);
+            }
+        })
 
+        function intersects(elementA, elementB) {
+            var a = elementA.getBoundingClientRect();
+            var b = elementB.getBoundingClientRect();
 
-  <div class="step card" id="step3">
-    <div class="card-header"> A beeline for felines </div>
-    <p>The cat-welfare movement in BGC gained greater traction in 2017, as Twitter users with 100K+ followers began tweeting links to blog posts about their advocacy. Serious Trap-Neuter- Vaccinate-Return (TNVR) efforts were underway. And the cats started getting nicknames from their fans.</p>
-  </div>
-  <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">The Cats of BGC need you!<br>~ When In Manila Pets &amp; Animals... <a href="https://t.co/8hUrNZHA20">https://t.co/8hUrNZHA20</a></p>&mdash; Manila Philippines (@WhenInManila) <a href="https://twitter.com/WhenInManila/status/930767360629260288?ref_src=twsrc%5Etfw">November 15, 2017</a></blockquote><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            return !(
+                (b.left > a.right) ||
+                (b.right < a.left) ||
+                (b.top > a.bottom) ||
+                (b.bottom < a.top)
+            );
+        }
 
-  <div class="step card" id="step4">
-    <div class="card-header"> Year of the Cat </div>
-    <p>As the Chinese Year of the Dog rolled in on 16 Feb 2018, all eyes turned instead to the cats, with a >500-word Facebook post by a certain Lucy M going viral on Twitter and other social media platforms.</p>
-    <p>The post-liked 4.8K times and shared 12K times-told of five-star hotel <b>Shangri-La at the Fort</b> (in BGC) allegedly ordering pest-control company PestBusters to remove alley cats from the hotel's perimeter in the dead of the night. <b>PestBusters</b> allegedly went beyond Shangri-La's perimeter. </p>
-    <p> And both ailurophiles and casual observers raised questions about which cats were affected and what happened to them.</p>
-  <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto.php%3Ffbid%3D10216653759282821%26set%3Da.3441204115272.2169322.1425653758%26type%3D3%26theater&width=400&show_text=false&appId=1488368734536934&height=275" width="400" height="275" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-  </div>
-
-  <div class="step card" id="step5">
-    <div class="card-header"> Adding 'kindle' to the fire </div>
-    <p>No amount of clarification or third-party reporting in the subsequent days seemed to abate the fire that the alleged Dr. Evils and Mr. Bigglesworths found themselves in.</p>
-    <p>Not this official statement from Shangri-La at the Fort on February 18...</p>
-    <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fshangrilafort%2Fphotos%2Fa.996102000419770.1073741828.994986307198006%2F1998901190139841%2F%3Ftype%3D3&width=300&show_text=false&appId=1488368734536934&height=452" width="300" height="452" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-    <p>Not this <a href='http://newsinfo.inquirer.net/969674/loss-of-taguig-park-cats-sparks-outcry' target='_blank'> Inquirer.net report </a> on February 19...</p>
-    <p>Not this personal message from the hotel's General Manager on February 20...</p>
-    <iframe src='https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fweb.facebook.com%2Fshangrilafort%2Fposts%2F2001217123241581%3A0&width=350&show_text=true&appId=1488368734536934&height=144' width='350' height='144' style='border:none;overflow:hidden' scrolling='no' frameborder='0' allowTransparency='true'></iframe>
-    <p>Nor this official statement from PestBusters on February 23.</p>
-    <iframe src='https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fweb.facebook.com%2Fzeropests%2Fposts%2F899416996900761&width=350&show_text=true&appId=1488368734536934&height=541' width='350' height='541' style='border:none;overflow:hidden' scrolling='no' frameborder='0' allowTransparency='true'></iframe>
-  </div>
-
-  <div class="step card">
-    <div class="card-header"> Taking a catnap </div>
-    <p>The only thing, it seemed, that could induce Shangri-La and PestBusters to cough out this 'purr-ball' was time.</p>
-    <p>Because as of April 15, at an average of xx tweets per week with an average sentiment score of xx - compared to a high of xx in February with an average sentiment score of xx - the issue appears to have died down. </p>
-    <p>Have the 'Cats of BGC' issue run its course? Or does it have one more left of its nine lives?</p>
-  </div>
-</div>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
-<script sync src="https://platform.twitter.com/widgets.js"></script>
-<script src="noframework.waypoints.min.js"></script>
-<script type="text/javascript" src="cats.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-<script src="scroll-down.js"></script>
-<script type="text/javascript">
-var waypoint = new Waypoint({
-  element: document.getElementById('firsttweet'),
-  handler: function(direction) {
-    if (direction=="down") {
-      step1(allposts);}
-    
-  }
-})
-
-var waypoint2 = new Waypoint({
-  element: document.getElementById('step2'),
-  handler: function(direction) {
-    if (direction=="down") {
-      step2(allposts);}
-  }
-})
-
-var waypoint3 = new Waypoint({
-  element: document.getElementById('step3'),
-  handler: function(direction) {
-    if (direction=="down") {
-      step3(allposts);}
-  }})
-
-var waypoint4 = new Waypoint({
-  element: document.getElementById('step4'),
-  handler: function(direction) {
-    if (direction=="down") {
-      step4(allposts);
-      // updateScatterAxis(allposts);
-    }
-  }
-})
-
-var waypoint5 = new Waypoint({
-  element: document.getElementById('step5'),
-  handler: function(direction) {
-    step5(allposts);
-}})
-
-</script>
+        $(window).on('scroll', function() {
+          var steps = $('.step');
+          console.log(steps)
+          for (i=0; i < steps.length; ++i){
+            if (i != (steps.length - 1)) {
+              if (intersects(steps[i], steps[i+1])) {
+                $(steps[i]).addClass('is-gone');
+              } else {
+                $(steps[i]).removeClass('is-gone');
+              }
+            }
+          }
+        })
+        </script>
 </body>
+
 </html>
