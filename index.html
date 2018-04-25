@@ -14,7 +14,7 @@
             <br> #CatsOfBGC
             <br>
             <br>
-            <img src="logo.png" style="width: 80px"> </div>
+            <img src="https://cdn.rawgit.com/robin-ramos/cats-of-bgc/bee3017d/Logo.png" style="width: 80px"> </div>
     </div>
     <div class="row" id="intro-post" style="color: white;">
         <div>
@@ -175,17 +175,22 @@
         }
 
         $(window).on('scroll', function() {
-          var steps = $('.step');
-          console.log(steps)
-          for (i=0; i < steps.length; ++i){
-            if (i != (steps.length - 1)) {
-              if (intersects(steps[i], steps[i+1])) {
-                $(steps[i]).addClass('is-gone');
-              } else {
-                $(steps[i]).removeClass('is-gone');
-              }
+            var steps = $('.step');
+            console.log(steps)
+            for (i = 0; i < steps.length; ++i) {
+                if (i != (steps.length - 1)) {
+                    if (intersects(steps[i], steps[i + 1])) {
+                        $(steps[i]).addClass('is-gone');
+                    } else {
+                        $(steps[i]).removeClass('is-gone');
+                    }
+                }
             }
-          }
+
+            if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+                updateScatterAxis(allposts);
+                console.log("print")
+            }
         })
         </script>
 </body>

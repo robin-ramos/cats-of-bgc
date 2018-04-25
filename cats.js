@@ -15,7 +15,7 @@ var formatComma = d3.format(",.0f");
 var reload = (function(){document.getElementById("tweetdiv").innerHTML= "";})
 var loadTweet = (function(id){
     var tweet = document.getElementById("tweetdiv");
-    twttr.widgets.createTweet(id, tweet)});
+    twttr.widgets.createTweet(id, tweet, {conversation:"none", width:550})});
 
 var sentiment_width = 150 - margin.left - margin.right;
 var scatter_width = 900 - margin.left - margin.right;
@@ -23,7 +23,7 @@ var scatter_width = 900 - margin.left - margin.right;
 var chartsvg = d3.select("#svg-div")
     .append("svg")
     .attr("width", scatter_width + sentiment_width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", height + margin.bottom)
     .append("g");
 
 // Sentiment Chart 
@@ -36,13 +36,36 @@ var sentimentvertline = d3.line()
     .y(function(d) { return sentiment_y(d.time); })
     .curve(d3.curveMonotoneX)
 
+var area = d3.area()
+    .x(function(d) { return sentiment_x(d.score); })
+    .y0(function(d) { return sentiment_y(d.time); })
+    .y1(function(d) { return sentiment_y(0); })
+    .curve(d3.curveMonotoneX);
+
+var axissvg = d3.select("#axes")
+    .append("svg")       
+        .attr("width", sentiment_width + margin.left + margin.right + scatter_width)
+        .attr("height", 150)
+        .style("position", "absolute")
+
+var date_text = axissvg.append("g")
+    .attr("class", "date-text");
+
+  date_text.append("text")
+    .attr("y", -13)
+    .attr("x", scatter_width/2 + 10)
+    .style("font-size", "12px")
+    .style("fill", "#ABB2B9")
+    .text("date")
+
 var sentimentsvg = chartsvg
     .append("svg")
     .attr("width", sentiment_width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+          "translate(" + margin.left + "," + margin.top/2 + ")");
+
 
 d3.csv("catsofbgc.csv", function(error, data) {
   if (error) throw error; 
@@ -51,10 +74,11 @@ d3.csv("catsofbgc.csv", function(error, data) {
       d.time = parseTime(d.time);
       d.score = +d.sentiment_score;
       robin = d.score;
+      if (d.score > 0) {d.sign = "positive"} else if (d.score < 0) {d.sign = "negative"} else {d.sign = "neutral"}
   });
 
   sentiment_y.domain(d3.extent(data, function(d) { return d.time; }).reverse());
-  sentiment_x.domain([-1,1])
+  sentiment_x.domain([-0.5,0.5])
 
   sentimentsvg.append("clipPath") // clip rectangle
     .attr("id", "clip-sentiment")
@@ -86,20 +110,13 @@ d3.csv("catsofbgc.csv", function(error, data) {
       .attr("transform", "translate(" + sentiment_width/4 + ",0)")
       .call(d3.axisLeft(sentiment_y).tickSizeOuter(0));
 
-  sentimentsvg.append("text")
-      .attr("y", -10)
-      .attr("x", -25)
-      .style("font-size", "15px")
-      .style("fill", "#ABB2B9")
-      .text("- Sentiment +");
-
-  sentimentsvg.append("text")
-      .attr("y", -9)
-      .attr("x", -25)
+  axissvg.append("text")
+      .attr("y", 15)
+      .attr("x", 85)
       .style("font-size", "15px")
       .style("fill", "#ABB2B9")
       .text("- Sentiment +")
-      .attr("transform", "translate(0, " + (height + 25) + ")" );
+      .attr("id", "sentiment_axis");
 
   sentimentsvg.append("path")
       .data([data])
@@ -107,15 +124,18 @@ d3.csv("catsofbgc.csv", function(error, data) {
       .attr("class", "line")
       .attr("id", "sentiment-line")
       .attr("d", sentimentvertline)
-      .style("stroke", "url(#color-gradient)");
+      .style("stroke", "url(#color-gradient)")
+      .style("opacity", 0.8);
+
+
 
     var sentiment_tip = d3.tip()
       .attr("class", "d3-tip")
       .offset([30, 130])
       .html(function(d)
       {
-        return "Sentiment score on " + formatDate(d.time) + ":</b><br>"
-        + formatDecimal(d.score) ;
+        return "<div align='left' style='line-height: 1.3'>Net sentiment on <br><b>" + formatDate(d.time) + "</b><br>"
+        +  "is " + d.sign + "</div>";
       });
 
   sentimentsvg.call(sentiment_tip)
@@ -157,22 +177,27 @@ var scatter_svg = chartsvg.append("svg")
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform",
-          "translate(" + (sentiment_width + margin.left + margin.right +  margin.left) + "," + margin.top + ")");
+          "translate(" + (sentiment_width + margin.left + margin.right +  margin.left) + "," + margin.top/2 + ")");
 
 
-d3.csv("allposts.csv", function(error, data) {
+d3.csv("allposts3.csv", function(error, data) {
   if (error) throw error; 
   allposts = data;
 
   data.forEach(function(d) {
       d.time = parseTime(d.time);
-      d.popularity = +d.pop_score;
+      d.popularity = +d.pop_score + 0.5;
       d.popularity_jittered = d.popularity + Math.random();
       d.link = d.link;
       d.platform = d.platform;
       d.sentiment = +d.score;
       d.followers =  Math.pow(Math.log10(+d.followers_count+1),2) + 1;
       d.followers_count = +d.followers_count;
+      d.fave = +d.fave;
+      d.retweet = +d.rt;
+      d.username = d.username;
+      d.id = d.id;
+      console.log(d.id)
       })
 
   scatter_y.domain(d3.extent(data, function(d) { return d.time; }));
@@ -188,125 +213,96 @@ d3.csv("allposts.csv", function(error, data) {
       .attr("class", "axisLine")
       .call(d3.axisLeft(scatter_y).tickSizeOuter(0));
 
-  scatter_svg.append("text")
-      .attr("y", -10)
-      .attr("x", -14)
+
+  axissvg.append("text")
+      .attr("y", 15)
+      .attr("x", 110 + sentiment_width + margin.left*2)
       .style("font-size", "15px")
       .style("fill", "#ABB2B9")
-      .text("Popularity score ");
+      .text("Popularity ");
 
-  scatter_svg.append("text")
-      .attr("y", -10)
-      .attr("x", 110)
+  axissvg.append("text")
+      .attr("y", 15)
+      .attr("x", 100 + sentiment_width + margin.left*4)
       .style("font-size", "10px")
       .style("fill", "#ABB2B9")
-      .text("(likes + retweets)")
-      .attr("transform", "translate(0, " + (height + 25) + ")" );      
-
-  scatter_svg.append("text")
-      .attr("y", -10)
-      .attr("x", -14)
-      .style("font-size", "15px")
-      .style("fill", "#ABB2B9")
-      .text("Popularity score ")
-      .attr("transform", "translate(0, " + (height + 25) + ")" );
-
-  scatter_svg.append("text")
-      .attr("y", -10)
-      .attr("x", 110)
-      .style("font-size", "10px")
-      .style("fill", "#ABB2B9")
-      .text("(likes + retweets)");
+      .text("(likes + retweets)");      
 
   chartsvg.append("g")
      .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2012-02-30")) + margin.top)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
-     .style("stroke", "#ABB2B9")
-     .style("stroke-width", "1px");
+     .attr("class", "timeLine");
 
   chartsvg.append("text")
     .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2012-02-30"))+15 + margin.top) +")")
-    .style("font-size", "50px")
-    .style("fill", "#ABB2B9")
+    .attr("class", "timeLine")
     .text("2012");
 
   chartsvg.append("g")
      .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2013-01-01")) + margin.top)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
-     .style("stroke", "#ABB2B9")
-     .style("stroke-width", "1px");
+     .attr("class", "timeLine");
 
   chartsvg.append("text")
     .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2013-01-01"))+15 + margin.top) +")")
-    .style("font-size", "50px")
-    .style("fill", "#ABB2B9")
+    .attr("class", "timeLine")
     .text("2013");
 
   chartsvg.append("g")
      .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2014-01-01")) + margin.top)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
-     .style("stroke", "#ABB2B9")
-     .style("stroke-width", "1px");
+     .attr("class", "timeLine");
 
   chartsvg.append("text")
     .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2014-01-01"))+15 + margin.top) +")")
-    .style("font-size", "50px")
-    .style("fill", "#ABB2B9")
+    .attr("class", "timeLine")
     .text("2014");
 
   chartsvg.append("g")
      .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2015-01-01")) + margin.top)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
-     .style("stroke", "#ABB2B9")
-     .style("stroke-width", "1px");
+     .attr("class", "timeLine");
 
   chartsvg.append("text")
     .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2015-01-01"))+15 + margin.top) +")")
-    .style("font-size", "50px")
-    .style("fill", "#ABB2B9")
+    .attr("class", "timeLine")
     .text("2015");
 
   chartsvg.append("g")
      .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2016-01-01")) + margin.top) +")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
-     .style("stroke", "#ABB2B9")
-     .style("stroke-width", "1px");
+     .attr("class", "timeLine");
 
   chartsvg.append("text")
     .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2016-01-01"))+15 + margin.top) +")")
-    .style("font-size", "50px")
-    .style("fill", "#ABB2B9")
+    .attr("class", "timeLine")
     .text("2016");
 
   chartsvg.append("g")
      .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2017-01-01")) + margin.top)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
-     .style("stroke", "#ABB2B9")
-     .style("stroke-width", "1px");
+     .attr("class", "timeLine");
 
   chartsvg.append("text")
     .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2017-01-01"))+15  + margin.top) +")")
-    .style("font-size", "50px")
-    .style("fill", "#ABB2B9")
+    .attr("class", "timeLine")
     .text("2017");
 
   chartsvg.append("g")
      .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2018-01-01")) + margin.top)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
-     .style("stroke", "#ABB2B9")
-     .style("stroke-width", "1px");
+     .attr("class", "timeLine");
 
   chartsvg.append("text")
     .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2018-01-01"))+15  + margin.top) +")")
-    .style("font-size", "50px")
-    .style("fill", "#ABB2B9")
+    .attr("class", "timeLine")
     .text("2018");
 
   var scatter_tip = d3.tip()
@@ -314,8 +310,10 @@ d3.csv("allposts.csv", function(error, data) {
       .offset([50, 170])
       .html(function(d)
       {
-        return "Username (<b>" + formatComma(d.followers_count) + " followers</b>) tweeted on <br><b>" 
-        + formatDate(d.time) + "</b>, with a sentiment score of <b>" + formatDecimal(d.sentiment) + "</b>." ;
+        return "<div align='left' style='line-height: 1.3'>@" + d.username + " (" + formatComma(d.followers_count) + " followers) <br> tweeted on <b>" 
+        + formatDate(d.time) + "</b> <br> with a sentiment score of <b>" + formatDecimal(d.sentiment) + "</b>.<br><br>" 
+        + "Likes: " + d.fave + "<br>Retweets: " + d.retweet + "</div>"
+        ;
       });
 
 
@@ -326,7 +324,7 @@ d3.csv("allposts.csv", function(error, data) {
     .enter().append("circle")
     .attr("class", "scatterplots")
     .attr("r", 0 )
-    .attr("cx", function(d) { return scatter_x(d.popularity_jittered); })
+    .attr("cx", function(d) { return scatter_x(d.popularity); })
     .attr("cy", function(d) { return scatter_y(d.time); })
     .attr("fill-opacity", 0.3)
     .style("fill", function(d) { if (d.sentiment < 0) {return '#C70039'} else {return '#858687'}})
@@ -342,9 +340,12 @@ d3.csv("allposts.csv", function(error, data) {
       reload();
       });
 
-  var color_legends = scatter_svg.append("g")
+  scatter_svg.append("div")
+      .attr("class","color-div")
+
+  var color_legends = axissvg.append("g")
       .attr("class", "color-legend")
-      .attr("transform", "translate(100,40)");
+      .attr("transform", "translate(300,60)");
 
   color_legends.append("circle")
     .attr("class", "legend")
@@ -377,9 +378,9 @@ d3.csv("allposts.csv", function(error, data) {
     .style("fill", "#ABB2B9")
     .text("Negative sentiment");
 
-  var size_legends = scatter_svg.append("g")
+  var size_legends = axissvg.append("g")
       .attr("class", "size-legend")
-      .attr("transform", "translate(110,60)");
+      .attr("transform", "translate(320,70)");
 
   size_legends.append("circle") //500 followers
     .attr("class", "legend")
@@ -476,7 +477,7 @@ function step1(data){ // First tweet
 
 
   sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(4000)
+      .transition().duration(7000)
       .attr("height", sentiment_y(parseTime("2016-01-01")) );
 }
 
@@ -495,7 +496,7 @@ function step2(data){ // Pats for Fancy Cat
       })
 
   sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(4000)
+      .transition().duration(7000)
       .attr("height", sentiment_y(parseTime("2017-01-01")) );
 }
 
@@ -515,7 +516,7 @@ function step3(data){ // Beeline for felines
 
 
   sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(4000)
+      .transition().duration(7000)
       .attr("height", sentiment_y(parseTime("2018-01-01")) );
 }
 
@@ -535,7 +536,7 @@ function step4(data){ // Year of the Cat
 
 
   sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(4000)
+      .transition().duration(7000)
       .attr("height", sentiment_y(parseTime("2018-02-17")) );  
 }
 
@@ -555,12 +556,12 @@ function step5(data){ // Adding kindle to the fire
 
 
   sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(4000)
+      .transition().duration(7000)
       .attr("height", sentiment_y(parseTime("2018-04-20")) );
 }
 
 function updateScatterAxis(data) {
-  scatter_x.domain([0, d3.max(data, function(d) { return d.popularity_jittered; }) + 10]);
+  scatter_x.domain([0, d3.max(data, function(d) { return d.popularity; }) + 10]);
   scatter_svg.selectAll(".scatterplots").transition().duration(2000).attr("cx", function(d) { 
-      return scatter_x(d.popularity_jittered);});
+      return scatter_x(d.popularity);});
 }
