@@ -169,7 +169,7 @@
         top: 15px!important;
         position: sticky;
         opacity: 1;
-        transition: opacity 0.5s ease;
+        transition: opacity 0.25s ease;
     }
 
     div.step>p {
@@ -211,11 +211,11 @@
     }
 
     #firsttweet {
-        margin-top: 525%;
+        margin-top: 515%;
     }
 
     #step2 {
-        margin-top: 525%;
+        margin-top: 500%;
     }
 
     #step3 {
