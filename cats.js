@@ -98,6 +98,15 @@ d3.csv("catsofbgc.csv", function(error, data) {
     .attr("height", 0)
     .attr("transform", "translate(-40,0)");
 
+  sentimentsvg.append("clipPath") // clip rectangle for 2018
+    .attr("id", "clip-sentiment2")
+    .append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", 150)
+    .attr("height", 500)
+    .attr("transform", "translate(-40,0)");
+
   sentimentsvg.append("linearGradient")
     .attr("id", "color-gradient")
     .attr("gradientUnits", "userSpaceOnUse")
@@ -126,18 +135,18 @@ d3.csv("catsofbgc.csv", function(error, data) {
 
   sentimentsvg.append("path")
       .data([data])
-      .attr("clip-path", "url(#clip-sentiment)")
+      //.attr("clip-path", "url(#clip-sentiment)")
       .attr("class", "line")
       .attr("id", "sentiment-line")
       .attr("d", sentimentvertline)
       .style("stroke", "url(#color-gradient)")
       .style("opacity", 0.8);
 
-  sentimentsvg.append("path")
+  sentimentsvg.append("path") //sentiment line for 2018
       .data([data2])
-      //.attr("clip-path", "url(#clip-sentiment)")
+      // .attr("clip-path", "url(#clip-sentiment2)")
       .attr("class", "line")
-      .attr("id", "sentiment-line")
+      .attr("id", "sentiment-line2")
       .attr("d", sentimentvertline2018)
       .style("stroke", "url(#color-gradient)")
       .style("opacity", 0.8)
@@ -207,14 +216,13 @@ d3.csv("catsofbgc.csv", function(error, data) {
 
 // Scatterplot ---
 
-
 var scatter_y = d3.scaleTime().range([0, height_2017]);
+var scatter_y2 = d3.scaleTime().range([0, height_2018]); //2018
 var scatter_x = d3.scaleLinear().range([0, scatter_width]);
-
 
 var scatter_svg = chartsvg.append("svg")
     .attr("width", scatter_width + margin.left + margin.right)
-    .attr("height", height_2017 + margin.top)
+    .attr("height", height_2017 + height_2018 + margin.top)
     .append("g")
     .attr("transform",
           "translate(" + (sentiment_width + margin.left + margin.right +  margin.left) + "," + margin.top/2 + ")");
@@ -240,9 +248,12 @@ d3.csv("allposts3.csv", function(error, data) {
       d.id = d.id;
       })
 
-  data = data.filter(function(d){return d.time <= parseTime("2018-01-01")});
-  allposts = data;
+  alldata = data;
+  data = alldata.filter(function(d){return d.time < parseTime("2018-01-01")});
+  data2 = alldata.filter(function(d){return d.time >= parseTime("2018-01-01")});
   scatter_y.domain(d3.extent(data, function(d) { return d.time; }));
+  scatter_y2.domain(d3.extent(data2, function(d) { return d.time; }));
+    
   scatter_x.domain([0, 30]);
   //x.domain([0, d3.max(data, function(d) { return d.popularity; }) + 50]);
 
@@ -254,6 +265,11 @@ d3.csv("allposts3.csv", function(error, data) {
   scatter_svg.append("g")
       .attr("class", "axisLine")
       .call(d3.axisLeft(scatter_y).tickSizeOuter(0));
+
+  scatter_svg.append("g") //2018
+      .attr("class", "axisLine")
+      .call(d3.axisLeft(scatter_y2).tickSizeOuter(0))
+      .attr("transform", "translate(0, "+ height_2017 +")");
 
 
   axissvg.append("text")
@@ -365,7 +381,7 @@ d3.csv("allposts3.csv", function(error, data) {
     .data(data)
     .enter().append("circle")
     .attr("class", "scatterplots")
-    .attr("r", 0 )
+    .attr("r", function(d) { return d.followers; })
     .attr("cx", function(d) { return scatter_x(d.popularity); })
     .attr("cy", function(d) { return scatter_y(d.time); })
     .attr("fill-opacity", 0.3)
@@ -381,6 +397,29 @@ d3.csv("allposts3.csv", function(error, data) {
       scatter_tip.hide();
       reload();
       });
+
+
+  scatter_svg.selectAll("dot") //2018 dots!
+    .data(data2)
+    .enter().append("circle")
+    .attr("class", "scatterplots ")
+    .attr("r", function(d) { return d.followers; })
+    .attr("cx", function(d) { return scatter_x(d.popularity); })
+    .attr("cy", function(d) { return scatter_y2(d.time); })
+    .attr("fill-opacity", 0.3)
+    .style("fill", function(d) { if (d.sentiment < 0) {return '#C70039'} else {return '#858687'}})
+    .on("mouseover", function(d) {   
+        d3.select(this).transition().style('fill', '#00C78E');
+        scatter_tip.show(d);
+        loadTweet(d.id);
+        d3.select(this).style("cursor","pointer");
+       })          
+    .on("mouseout", function(d) {  
+      d3.select(this).transition().style("fill", function(d) { if (d.sentiment < 0) {return '#C70039'} else {return '#858687'}});
+      scatter_tip.hide();
+      reload();
+      })
+    .attr("transform", "translate(0, "+ height_2017 +")");
 
   scatter_svg.append("div")
       .attr("class","color-div")
@@ -489,123 +528,121 @@ d3.csv("allposts3.csv", function(error, data) {
           this.remove();
       });
 
-  scatter_svg.selectAll("circle")
-    .data(data)
-    .filter(function(d){return d.time <= parseTime("2014-01-01")})
-    .transition()
-    .duration(3000) 
-    .on("start", function() {  
-      d3.select(this)  
-        .attr("r", function(d) { return d.followers })  
-      })
-    .delay(function(d, i) {
-        return i / data.length * 4000;  
-      })  
+  // scatter_svg.selectAll("circle")
+  //   .data(data)
+  //   .filter(function(d){return d.time <= parseTime("2014-01-01")})
+  //   .transition()
+  //   .duration(3000) 
+  //   .on("start", function() {  
+  //     d3.select(this)  
+  //       .attr("r", function(d) { return d.followers })  
+  //     })
+  //   .delay(function(d, i) {
+  //       return i / data.length * 4000;  
+  //     })  
 });
 
-function step1(data){ // First tweet
-  scatter_svg.selectAll("circle")
-    .data(data)
-    .filter(function(d){return d.time <= parseTime("2016-01-01")})
-    .transition()
-    .duration(3000) 
-    .on("start", function() {  
-      d3.select(this)  
-        .attr("r", function(d) { return d.followers })  
-      })
-    .delay(function(d, i) {
-        return i / data.length * 4000; 
-      })
+// function step1(data){ // First tweet
+//   scatter_svg.selectAll("circle")
+//     .data(data)
+//     .filter(function(d){return d.time <= parseTime("2016-01-01")})
+//     .transition()
+//     .duration(3000) 
+//     .on("start", function() {  
+//       d3.select(this)  
+//         .attr("r", function(d) { return d.followers })  
+//       })
+//     .delay(function(d, i) {
+//         return i / data.length * 3000; 
+//       })
 
 
-  sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(4000)
-      .attr("height", sentiment_y(parseTime("2016-01-01")) );
-}
+//   sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
+//       .transition().duration(4000)
+//       .attr("height", sentiment_y(parseTime("2016-01-01")) + 10);
+// }
 
-function step2(data){ // Pats for Fancy Cat
-  scatter_svg.selectAll("circle")
-    .data(data)
-    .filter(function(d){return d.time <= parseTime("2017-01-01")})
-    .transition()
-    .duration(3000) 
-    .on("start", function() {  
-      d3.select(this)  
-        .attr("r", function(d) { return d.followers })  
-      })
-    .delay(function(d, i) {
-        return i / data.length * 4000;  
-      })
+// function step2(data){ // Pats for Fancy Cat
+//   scatter_svg.selectAll("circle")
+//     .data(data)
+//     .filter(function(d){return d.time <= parseTime("2017-01-01")})
+//     .transition()
+//     .duration(3000) 
+//     .on("start", function() {  
+//       d3.select(this)  
+//         .attr("r", function(d) { return d.followers })  
+//       })
+//     .delay(function(d, i) {
+//         return i / data.length * 4000;  
+//       })
 
-  sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(4000)
-      .attr("height", sentiment_y(parseTime("2017-01-01")) );
-}
+//   sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
+//       .transition().duration(4000)
+//       .attr("height", sentiment_y(parseTime("2017-01-01")) + 10 );
+// }
 
-function step3(data){ // Beeline for felines
-  scatter_svg.selectAll("circle")
-    .data(data)
-    .filter(function(d){return d.time <= parseTime("2018-01-01")})
-    .transition()
-    .duration(3000) 
-    .on("start", function() {  
-      d3.select(this) 
-        .attr("r", function(d) { return d.followers })  
-      })
-    .delay(function(d, i) {
-        return i / data.length * 4000;  
-      })
-
-
-  sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(4000)
-      .attr("height", sentiment_y(parseTime("2018-01-01")) );
-}
-
-function step4(data){ // Year of the Cat
-  scatter_svg.selectAll("circle")
-    .data(data)
-    .filter(function(d){return d.time <= parseTime("2018-02-17")})
-    .transition()
-    .duration(3000) 
-    .on("start", function() {  // Start animation
-      d3.select(this)  // 'this' means the current element
-        .attr("r", function(d) { return d.followers })  // Change size
-      })
-    .delay(function(d, i) {
-        return i / data.length * 4000;  // Dynamic delay (i.e. each item delays a little longer)
-      });
+// function step3(data){ // Beeline for felines
+//   scatter_svg.selectAll("circle")
+//     .data(data)
+//     .filter(function(d){return d.time <= parseTime("2018-01-01")})
+//     .transition()
+//     .duration(3000) 
+//     .on("start", function() {  
+//       d3.select(this) 
+//         .attr("r", function(d) { return d.followers })  
+//       })
+//     .delay(function(d, i) {
+//         return i / data.length * 4000;  
+//       })
 
 
-  sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(4000)
-      .attr("height", sentiment_y(parseTime("2018-02-17")) );  
-}
+//   sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
+//       .transition().duration(4000)
+//       .attr("height", sentiment_y(parseTime("2018-01-01")) + 10 );
+// }
 
-function step5(data){ // Adding kindle to the fire
-  scatter_svg.selectAll("circle")
-    .data(data)
-    .filter(function(d){return d.time <= parseTime("2018-04-20")})
-    .transition()
-    .duration(3000) 
-    .on("start", function() {  // Start animation
-      d3.select(this)  // 'this' means the current element
-        .attr("r", function(d) { return d.followers })  // Change size
-      })
-    .delay(function(d, i) {
-        return i / data.length * 4000;  // Dynamic delay (i.e. each item delays a little longer)
-      })
-
-
-  sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(4000)
-      .attr("height", sentiment_y(parseTime("2018-04-20")) );
+// function step4(data){ // Year of the Cat
+//   scatter_svg.selectAll("circle")
+//     .data(data2)
+//     .filter(function(d){return d.time <= parseTime("2018-02-17")})
+//     .transition()
+//     .duration(3000) 
+//     .on("start", function() {  
+//       d3.select(this)  
+//         .attr("r", function(d) { return d.followers })  
+//       })
+//     .delay(function(d, i) {
+//         return i / data.length * 4000;  
+//       });
 
 
-}
+//   sentimentsvg.selectAll("#clip-sentiment2").selectAll("rect")
+//       .transition().duration(4000)
+//       .attr("height",  sentiment_y2(parseTime("2018-01-30")) );  
+// }
+
+// function step5(data){ // Adding kindle to the fire
+//   scatter_svg.selectAll("circle")
+//     .data(data)
+//     .filter(function(d){return d.time <= parseTime("2018-04-20")})
+//     .transition()
+//     .duration(3000) 
+//     .on("start", function() {  // Start animation
+//       d3.select(this)  // 'this' means the current element
+//         .attr("r", function(d) { return d.followers })  // Change size
+//       })
+//     .delay(function(d, i) {
+//         return i / data.length * 4000;  // Dynamic delay (i.e. each item delays a little longer)
+//       })
+
+
+//   sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
+//       .transition().duration(4000)
+//       .attr("height", sentiment_y(parseTime("2018-04-20")) + 10 );
+// }
 
 function updateScatterAxis(data) {
-  scatter_x.domain([0, d3.max(data, function(d) { return d.popularity; }) + 10]);
+  scatter_x.domain([0, d3.max(data, function(d) { return d.popularity; })]);
   scatter_svg.selectAll(".scatterplots").transition().duration(2000).attr("cx", function(d) { 
       return scatter_x(d.popularity);});
 }
