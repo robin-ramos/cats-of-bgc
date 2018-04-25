@@ -32,6 +32,8 @@
     </div>
     <div class="row">
         <div class="col-md-8">
+
+    <div id="axes"></div>
             <div id="svg-div"></div>
             <div id="sentimentchart"></div>
             <div id="scatterplot"></div>
@@ -176,7 +178,6 @@
 
         $(window).on('scroll', function() {
             var steps = $('.step');
-            console.log(steps)
             for (i = 0; i < steps.length; ++i) {
                 if (i != (steps.length - 1)) {
                     if (intersects(steps[i], steps[i + 1])) {
@@ -186,12 +187,12 @@
                     }
                 }
             }
+        })
 
-            if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-                updateScatterAxis(allposts);
+        if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+                updateScatterAxis(allposts)
                 console.log("print")
             }
-        })
         </script>
 </body>
 
