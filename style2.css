@@ -1,185 +1,244 @@
-* {
-	  /*font-family: 'Libre Franklin', sans-serif;*/
-	  font-family: 'Montserrat', sans-serif;
-}
+    * {
+        /*font-family: 'Libre Franklin', sans-serif;*/
+        font-family: 'Montserrat', sans-serif;
+    }
 
 
-body {
-  color: white;
-  font-size: 8px;
-  overflow-x: hidden;
-}
+    body {
+        color: white;
+        font-size: 8px;
+        overflow-x: hidden;
+    }
 
-path.line {
-    fill: none;
-    stroke: #000;
-    stroke-width: 2px;
-}
-h1 {
-	width: 100%;
-}
+    path.line {
+        fill: none;
+        stroke: #000;
+        stroke-width: 2px;
+    }
 
-h4 {
-	width: 100%;
-}
+    h1 {
+        width: 100%;
+    }
 
-.no-container {
-    margin-left: 0 !important;
-    margin-right: -100 !important; 
-}
+    h4 {
+        width: 100%;
+    }
 
-.header {
-	font-family: 'Libre Franklin', sans-serif;	
-}
+    .no-container {
+        margin-left: 0 !important;
+        margin-right: -100 !important;
+    }
 
-#intro-post{
-	height: 100%; 
-	margin: 20px;
-	padding: 5%;
-}
+    .header {
+        font-family: 'Libre Franklin', sans-serif;
+    }
 
-#hero-title{
-  position: absolute;
-  left: 0;
-  top: 30%;
-  width: 100%;
-  text-align: center;
-  color: white;
-  font-size: 20px;
-}
+    #intro-post {
+        height: 100%;
+        margin: 20px;
+        padding: 5%;
+    }
+
+    #hero-title {
+        position: absolute;
+        left: 0;
+        top: 40%;
+        width: 100%;
+        text-align: center;
+        color: white;
+        font-size: 20px;
+    }
 
 
-.bg {
-    /* The image used */
-    background-image: url("cats1.jpg");
+    .bg {
+        /* The image used */
+        background-image: url("cats1.jpg");
+        /* Full height */
+        height: 100%;
 
-    /* Full height */
-    height: 100%; 
+        /* Center and scale the image nicely */
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 
-    /* Center and scale the image nicely */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
+    .ct-btn-scroll {
+        left: 0;
+        right: 0;
+        margin: auto;
+        z-index: 9;
+        border-radius: 50%;
+        -webkit-transition: background-color 0.25s ease-in-out;
+        transition: background-color 0.25s ease-in-out;
+        margin-bottom: 5%;
+    }
 
-.ct-btn-scroll {
-  left: 0;
-  right: 0;
-  margin: auto;
-  z-index: 9;
-  border-radius: 50%;
-  -webkit-transition: background-color 0.25s ease-in-out;
-  transition: background-color 0.25s ease-in-out;
-  margin-bottom: 5%;
-}
+    #arrow {
+        height: 50px;
+    }
 
-#arrow {
-	height: 50px;
-}
+    .d3-tip {
+        line-height: 1;
+        font-size: 12px;
+        padding: 12px;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border-radius: 2px;
+        text-align: center;
+    }
 
-/*.step {
-	height: 100px;
-	padding-right: 60px;
-	padding-top: 30px;
-	text-align: justify;
-}*/
+    .d3-tip:before {
+        box-sizing: border-box;
+        display: inline;
+        font-size: 10px;
+        width: 100%;
+        line-height: 1;
+        color: rgba(0, 0, 0, 0.5);
+        content: "\2BC7";
+        position: absolute;
+        text-align: center;
+    }
 
-.d3-tip
-{
-  line-height: 1;
-  font-size: 12px; 
-  padding: 12px;
-	background: rgba(0, 0, 0, 0.5);
-  color: white;
-	border-radius: 2px;
-  text-align: center;
-  z-index: 3;
-}
+    .d3-tip.n:before {
+        margin: 0 -1px 0 0;
+        bottom: 43%;
+        left: -8px;
+        width: 0px;
+        height: 50px;
+    }
 
-.d3-tip:before
-{
-	box-sizing: border-box;
-	display: inline;
-	font-size: 10px;
-	width: 100%;
-	line-height: 1;
-	color: rgba(0, 0, 0, 0.5);
-	content: "\2BC7";
-	position: absolute;
-	text-align: center;
-}
+    .axisLine text {
+        font-size: 25px;
+        margin-right: 2px;
+        color: white;
+    }
 
-.d3-tip.n:before
-{
-	margin: 0 -1px 0 0;
-	bottom: 43%;
-	left: -8px;
-  width: 0px;
-}
+    .axisLine line {
+        stroke: #ABB2B9;
+        opacity: 0.8;
+    }
 
-.axisLine text {
-  font-size: 25px;
-  margin-right: 2px;
-  color: white;
-}
+    .axisLine path {
+        stroke: black;
+        opacity: 0.2;
+    }
 
-.axisLine line {
- stroke: black;
- opacity: 0.2;
-}
+    .timeLine {
+        opacity: 0.2;
+        stroke: #ABB2B9;
+        stroke-width: 1px;
+        font-size: 50px;
+        fill: #ABB2B9;
+    }
 
-.axisLine path {
- stroke: black;
- opacity: 0.2;
-}
+    #svg-div {
+        z-index: 2;
+        position: relative;
+        margin-left: 60px
+    }
 
-.timeLine {
-	opacity: 0.2;
-	stroke: #ABB2B9;
-	stroke-width: 1px;
-	font-size: 50px;
-	fill: #ABB2B9;
-}
+    #axes {
+        position: sticky;
+        top: 20;
+        z-index: 1;
+    }
 
-#svg-div {
-	z-index: 2;
-	position: relative;	
-	margin-left: 60px
-}
+    #tweetdiv {
+        position: fixed;
+        width: 550px;
+        height: 300px;
+        left: 35%;
+        top: 20px;
+        z-index: 1;
+    }
 
-#axes {
-	position: sticky;
-	top: 20;
-	z-index: 1;
-}
+    .steptitle {
+        color: white;
+        font-weight: bold;
+        opacity: 0.65;
+    }
 
-#tweetdiv {
-  position: fixed;
-  width: 550px;
-  height: 300px;
-  left: 35%;
-  top: 20px;
-  z-index: 1;
-}
+    div.step {
+        padding: 25px;
+        margin-top: 5%;
+        padding-bottom: 15px;
+        background-color: rgba(134, 135, 136, 0.1);
+        border-radius: 10px;
+        text-align: left;
+        top: 15px!important;
+        position: sticky;
+        opacity: 1;
+        transition: opacity 0.5s ease;
+    }
 
-div.card {
-	/*margin-top: 150px;*/
-	font-size: 0.75em;
-	text-align: justify;
-/*	transform: translateZ(-1px)scale(2);
-*/}
+    div.step>p {
+        color: white;
+        opacity: 0.65;
+        font-size: 1em;
+    }
 
-div.card > p {
-	padding: 5px 10px;
-}
+    q:before {
+        content: "\201C";
+        font-weight: bold;
+        font-size: 4em;
+        position: relative;
+        right: 90%;
+        top: 0.75em;
+    }
 
-.card-header {
-	font-weight: bold;
-	font-size: 1.5em;
-}
+    q:after {
+        content: "\201D";
+        font-weight: bold;
+        font-size: 4em;
+        position: relative;
+        bottom: 40px;
+        right: -5px;
+    }
 
-#cards {
-	padding-right: 30px;
-	height: 5000px;
-}
+    div.blockquote>q>p {
+        padding-left: 10%;
+        padding-right: 10%;
+        font-family: 'IBM Plex Serif', serif!important;
+        color: white;
+        opacity: 0.65;
+        font-size: 0.75em;
+    }
+
+    footer.blockquote-footer {
+        position: relative;
+        bottom: 100;
+    }
+
+    #firsttweet {
+        margin-top: 525%;
+    }
+
+    #step2 {
+        margin-top: 525%;
+    }
+
+    #step3 {
+        margin-top: 175%;
+    }
+
+    .blockquote {
+        margin-top: -10%;
+        margin-bottom: -10%!important;
+        max-height: 300px;
+        max-width: 100%;
+    }
+
+    .tweet-image {
+        max-width: 100%;
+        max-height: 40vh;
+    }
+
+    #last-step {
+        margin-bottom: 5%;
+    }
+
+    .is-gone {
+        opacity: 0!important;
+        z-index: -1;
+    }
