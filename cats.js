@@ -643,6 +643,12 @@ d3.csv("allposts3.csv", function(error, data) {
 
 function updateScatterAxis(data) {
   scatter_x.domain([0, d3.max(data, function(d) { return d.popularity; })]);
-  scatter_svg.selectAll(".scatterplots").transition().duration(2000).attr("cx", function(d) { 
+  scatter_svg.selectAll(".scatterplots").transition().duration(1000).attr("cx", function(d) { 
+      return scatter_x(d.popularity);});
+}
+
+function resetScatterAxis(data) {
+  scatter_x.domain([0, 30]);
+  scatter_svg.selectAll(".scatterplots").transition().duration(1000).attr("cx", function(d) { 
       return scatter_x(d.popularity);});
 }

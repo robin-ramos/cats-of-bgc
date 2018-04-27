@@ -167,9 +167,13 @@
         var waypoint6 = new Waypoint({
             element: document.getElementById('step6'),
             handler: function(direction) {
+              if (direction == "down") {
                 updateScatterAxis(allposts);
-                this.destroy();
-                console.log("once")
+              }
+              else if (direction == "up") {
+                resetScatterAxis(allposts);
+              }
+
             }
         })
 
