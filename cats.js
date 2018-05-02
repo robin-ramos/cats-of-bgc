@@ -3,7 +3,9 @@
 var robin;
 var allposts;
 var margin = {top: 50, right: 50, bottom: 50, left: 70};
-var height = 10000 - margin.top - margin.bottom; //global height
+var height_2017 = 6000;
+var height_2018 = 3000;
+var height = height_2017 + height_2018 - margin.top - margin.bottom; //global height
 
 var formatDate = d3.timeFormat("%B %d, %Y");  
 var formatDecimal = d3.format(".2f");
@@ -28,7 +30,8 @@ var chartsvg = d3.select("#svg-div")
 
 // Sentiment Chart 
 
-var sentiment_y = d3.scaleTime().range([height, 0]);
+var sentiment_y = d3.scaleTime().range([height_2017, 0]);
+var sentiment_y2 = d3.scaleTime().range([height_2018, 0]); //2018
 var sentiment_x = d3.scaleLinear().range([0, sentiment_width/2]);
 
 var sentimentvertline = d3.line()
@@ -36,11 +39,11 @@ var sentimentvertline = d3.line()
     .y(function(d) { return sentiment_y(d.time); })
     .curve(d3.curveMonotoneX)
 
-var area = d3.area()
+var sentimentvertline2018 = d3.line()
     .x(function(d) { return sentiment_x(d.score); })
-    .y0(function(d) { return sentiment_y(d.time); })
-    .y1(function(d) { return sentiment_y(0); })
-    .curve(d3.curveMonotoneX);
+    .y(function(d) { return sentiment_y2(d.time); })
+    .curve(d3.curveMonotoneX)
+
 
 var axissvg = d3.select("#axes")
     .append("svg")       
@@ -59,9 +62,10 @@ var date_text = axissvg.append("g")
     .text("date")
 
 var sentimentsvg = chartsvg
+    .attr("class", "sentchart")
     .append("svg")
     .attr("width", sentiment_width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", height + margin.top)
     .append("g")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top/2 + ")");
@@ -77,8 +81,13 @@ d3.csv("catsofbgc.csv", function(error, data) {
       if (d.score > 0) {d.sign = "positive"} else if (d.score < 0) {d.sign = "negative"} else {d.sign = "neutral"}
   });
 
+  data0 = data;
+  data = data0.filter(function(d){return d.time < parseTime("2018-01-01")});
+  data2 = data0.filter(function(d){return d.time >= parseTime("2018-01-01")});
+
   sentiment_y.domain(d3.extent(data, function(d) { return d.time; }).reverse());
-  sentiment_x.domain([-0.5,0.5])
+  sentiment_x.domain([-0.5,0.5]);
+  sentiment_y2.domain([parseTime("2018-01-01"), d3.max(data2, function(d) { return d.time; })].reverse()); //2018
 
   sentimentsvg.append("clipPath") // clip rectangle
     .attr("id", "clip-sentiment")
@@ -87,6 +96,15 @@ d3.csv("catsofbgc.csv", function(error, data) {
     .attr("y", 0)
     .attr("width", 150)
     .attr("height", 0)
+    .attr("transform", "translate(-40,0)");
+
+  sentimentsvg.append("clipPath") // clip rectangle for 2018
+    .attr("id", "clip-sentiment2")
+    .append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", 150)
+    .attr("height", 500)
     .attr("transform", "translate(-40,0)");
 
   sentimentsvg.append("linearGradient")
@@ -110,6 +128,30 @@ d3.csv("catsofbgc.csv", function(error, data) {
       .attr("transform", "translate(" + sentiment_width/4 + ",0)")
       .call(d3.axisLeft(sentiment_y).tickSizeOuter(0));
 
+  sentimentsvg.append("g") //2018 axis
+      .attr("class", "axisLine")
+      .attr("transform", "translate(" + sentiment_width/4 + ","+ height_2017 +")")
+      .call(d3.axisLeft(sentiment_y2).tickSizeOuter(0));
+
+  sentimentsvg.append("path")
+      .data([data])
+      //.attr("clip-path", "url(#clip-sentiment)")
+      .attr("class", "line")
+      .attr("id", "sentiment-line")
+      .attr("d", sentimentvertline)
+      .style("stroke", "url(#color-gradient)")
+      .style("opacity", 0.8);
+
+  sentimentsvg.append("path") //sentiment line for 2018
+      .data([data2])
+      // .attr("clip-path", "url(#clip-sentiment2)")
+      .attr("class", "line")
+      .attr("id", "sentiment-line2")
+      .attr("d", sentimentvertline2018)
+      .style("stroke", "url(#color-gradient)")
+      .style("opacity", 0.8)
+      .attr("transform", "translate(0,"+ height_2017 +")");
+
   axissvg.append("text")
       .attr("y", 15)
       .attr("x", 85)
@@ -117,17 +159,6 @@ d3.csv("catsofbgc.csv", function(error, data) {
       .style("fill", "#ABB2B9")
       .text("- Sentiment +")
       .attr("id", "sentiment_axis");
-
-  sentimentsvg.append("path")
-      .data([data])
-      .attr("clip-path", "url(#clip-sentiment)")
-      .attr("class", "line")
-      .attr("id", "sentiment-line")
-      .attr("d", sentimentvertline)
-      .style("stroke", "url(#color-gradient)")
-      .style("opacity", 0.8);
-
-
 
     var sentiment_tip = d3.tip()
       .attr("class", "d3-tip")
@@ -139,6 +170,7 @@ d3.csv("catsofbgc.csv", function(error, data) {
       });
 
   sentimentsvg.call(sentiment_tip)
+
 
   sentimentsvg.selectAll("dot")
     .data(data)
@@ -156,6 +188,23 @@ d3.csv("catsofbgc.csv", function(error, data) {
       d3.select(this).style("cursor","default");}
       );  
 
+  sentimentsvg.selectAll("dot")
+    .data(data2)
+    .enter().append("circle")
+    .attr("class", "scatterplots")
+    .attr("r", 5)
+    .attr("cx", function(d) { return sentiment_x(d.score); })
+    .attr("cy", function(d) { return sentiment_y2(d.time); })
+    .attr("fill-opacity", 0)
+    .on("mouseover", function(d) { 
+      sentiment_tip.show(d)
+      d3.select(this).style("cursor","pointer");})
+    .on("mouseout", function(d) { 
+      sentiment_tip.hide() 
+      d3.select(this).style("cursor","default");}
+      )
+    .attr("transform", "translate(0,"+ height_2017 +")");    
+
   sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
       .transition().duration(4000)
       .attr("height", sentiment_y(parseTime("2014-01-01")) );
@@ -167,14 +216,13 @@ d3.csv("catsofbgc.csv", function(error, data) {
 
 // Scatterplot ---
 
-
-var scatter_y = d3.scaleTime().range([0, height]);
+var scatter_y = d3.scaleTime().range([0, height_2017]);
+var scatter_y2 = d3.scaleTime().range([0, height_2018]); //2018
 var scatter_x = d3.scaleLinear().range([0, scatter_width]);
-
 
 var scatter_svg = chartsvg.append("svg")
     .attr("width", scatter_width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", height_2017 + height_2018 + margin.top)
     .append("g")
     .attr("transform",
           "translate(" + (sentiment_width + margin.left + margin.right +  margin.left) + "," + margin.top/2 + ")");
@@ -182,6 +230,7 @@ var scatter_svg = chartsvg.append("svg")
 
 d3.csv("allposts3.csv", function(error, data) {
   if (error) throw error; 
+
   allposts = data;
 
   data.forEach(function(d) {
@@ -197,10 +246,14 @@ d3.csv("allposts3.csv", function(error, data) {
       d.retweet = +d.rt;
       d.username = d.username;
       d.id = d.id;
-      console.log(d.id)
       })
 
+  alldata = data;
+  data = alldata.filter(function(d){return d.time < parseTime("2018-01-01")});
+  data2 = alldata.filter(function(d){return d.time >= parseTime("2018-01-01")});
   scatter_y.domain(d3.extent(data, function(d) { return d.time; }));
+  scatter_y2.domain(d3.extent(data2, function(d) { return d.time; }));
+    
   scatter_x.domain([0, 30]);
   //x.domain([0, d3.max(data, function(d) { return d.popularity; }) + 50]);
 
@@ -212,6 +265,11 @@ d3.csv("allposts3.csv", function(error, data) {
   scatter_svg.append("g")
       .attr("class", "axisLine")
       .call(d3.axisLeft(scatter_y).tickSizeOuter(0));
+
+  scatter_svg.append("g") //2018
+      .attr("class", "axisLine")
+      .call(d3.axisLeft(scatter_y2).tickSizeOuter(0))
+      .attr("transform", "translate(0, "+ height_2017 +")");
 
 
   axissvg.append("text")
@@ -229,79 +287,79 @@ d3.csv("allposts3.csv", function(error, data) {
       .text("(likes + retweets)");      
 
   chartsvg.append("g")
-     .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2012-02-30")) + margin.top)+")")
+     .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2012-02-30")))+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
      .attr("class", "timeLine");
 
   chartsvg.append("text")
-    .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2012-02-30"))+15 + margin.top) +")")
+    .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2012-02-30"))+15 + margin.top/2) +")")
     .attr("class", "timeLine")
     .text("2012");
 
   chartsvg.append("g")
-     .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2013-01-01")) + margin.top)+")")
+     .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2013-01-01")) + margin.top/2)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
      .attr("class", "timeLine");
 
   chartsvg.append("text")
-    .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2013-01-01"))+15 + margin.top) +")")
+    .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2013-01-01"))+15 + margin.top/2) +")")
     .attr("class", "timeLine")
     .text("2013");
 
   chartsvg.append("g")
-     .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2014-01-01")) + margin.top)+")")
+     .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2014-01-01")) + margin.top/2)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
      .attr("class", "timeLine");
 
   chartsvg.append("text")
-    .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2014-01-01"))+15 + margin.top) +")")
+    .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2014-01-01"))+15 + margin.top/2) +")")
     .attr("class", "timeLine")
     .text("2014");
 
   chartsvg.append("g")
-     .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2015-01-01")) + margin.top)+")")
+     .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2015-01-01")) + margin.top/2)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
      .attr("class", "timeLine");
 
   chartsvg.append("text")
-    .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2015-01-01"))+15 + margin.top) +")")
+    .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2015-01-01"))+15 + margin.top/2) +")")
     .attr("class", "timeLine")
     .text("2015");
 
   chartsvg.append("g")
-     .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2016-01-01")) + margin.top) +")")
+     .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2016-01-01")) + margin.top/2) +")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
      .attr("class", "timeLine");
 
   chartsvg.append("text")
-    .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2016-01-01"))+15 + margin.top) +")")
+    .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2016-01-01"))+15 + margin.top/2) +")")
     .attr("class", "timeLine")
     .text("2016");
 
   chartsvg.append("g")
-     .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2017-01-01")) + margin.top)+")")
+     .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2017-01-01")) + margin.top/2)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
      .attr("class", "timeLine");
 
   chartsvg.append("text")
-    .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2017-01-01"))+15  + margin.top) +")")
+    .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2017-01-01"))+15  + margin.top/2) +")")
     .attr("class", "timeLine")
     .text("2017");
 
   chartsvg.append("g")
-     .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2018-01-01")) + margin.top)+")")
+     .attr("transform", "translate(" + margin.left/2 + ", "+ (scatter_y(parseTime("2018-01-01")) + margin.top/2)+")")
      .append("line")
      .attr("x2", sentiment_width + scatter_width*0.80)
      .attr("class", "timeLine");
 
   chartsvg.append("text")
-    .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2018-01-01"))+15  + margin.top) +")")
+    .attr("transform", "translate(" + (sentiment_width + scatter_width*0.87) + ", "+ (scatter_y(parseTime("2018-01-01"))+15  + margin.top/2) +")")
     .attr("class", "timeLine")
     .text("2018");
 
@@ -323,7 +381,7 @@ d3.csv("allposts3.csv", function(error, data) {
     .data(data)
     .enter().append("circle")
     .attr("class", "scatterplots")
-    .attr("r", 0 )
+    .attr("r", function(d) { return d.followers; })
     .attr("cx", function(d) { return scatter_x(d.popularity); })
     .attr("cy", function(d) { return scatter_y(d.time); })
     .attr("fill-opacity", 0.3)
@@ -339,6 +397,29 @@ d3.csv("allposts3.csv", function(error, data) {
       scatter_tip.hide();
       reload();
       });
+
+
+  scatter_svg.selectAll("dot") //2018 dots!
+    .data(data2)
+    .enter().append("circle")
+    .attr("class", "scatterplots ")
+    .attr("r", function(d) { return d.followers; })
+    .attr("cx", function(d) { return scatter_x(d.popularity); })
+    .attr("cy", function(d) { return scatter_y2(d.time); })
+    .attr("fill-opacity", 0.3)
+    .style("fill", function(d) { if (d.sentiment < 0) {return '#C70039'} else {return '#858687'}})
+    .on("mouseover", function(d) {   
+        d3.select(this).transition().style('fill', '#00C78E');
+        scatter_tip.show(d);
+        loadTweet(d.id);
+        d3.select(this).style("cursor","pointer");
+       })          
+    .on("mouseout", function(d) {  
+      d3.select(this).transition().style("fill", function(d) { if (d.sentiment < 0) {return '#C70039'} else {return '#858687'}});
+      scatter_tip.hide();
+      reload();
+      })
+    .attr("transform", "translate(0, "+ height_2017 +")");
 
   scatter_svg.append("div")
       .attr("class","color-div")
@@ -447,121 +528,127 @@ d3.csv("allposts3.csv", function(error, data) {
           this.remove();
       });
 
-  scatter_svg.selectAll("circle")
-    .data(data)
-    .filter(function(d){return d.time <= parseTime("2014-01-01")})
-    .transition()
-    .duration(3000) 
-    .on("start", function() {  
-      d3.select(this)  
-        .attr("r", function(d) { return d.followers })  
-      })
-    .delay(function(d, i) {
-        return i / data.length * 4000;  
-      })  
+  // scatter_svg.selectAll("circle")
+  //   .data(data)
+  //   .filter(function(d){return d.time <= parseTime("2014-01-01")})
+  //   .transition()
+  //   .duration(3000) 
+  //   .on("start", function() {  
+  //     d3.select(this)  
+  //       .attr("r", function(d) { return d.followers })  
+  //     })
+  //   .delay(function(d, i) {
+  //       return i / data.length * 4000;  
+  //     })  
 });
 
-function step1(data){ // First tweet
-  scatter_svg.selectAll("circle")
-    .data(data)
-    .filter(function(d){return d.time <= parseTime("2016-01-01")})
-    .transition()
-    .duration(3000) 
-    .on("start", function() {  
-      d3.select(this)  
-        .attr("r", function(d) { return d.followers })  
-      })
-    .delay(function(d, i) {
-        return i / data.length * 4000; 
-      })
+// function step1(data){ // First tweet
+//   scatter_svg.selectAll("circle")
+//     .data(data)
+//     .filter(function(d){return d.time <= parseTime("2016-01-01")})
+//     .transition()
+//     .duration(3000) 
+//     .on("start", function() {  
+//       d3.select(this)  
+//         .attr("r", function(d) { return d.followers })  
+//       })
+//     .delay(function(d, i) {
+//         return i / data.length * 3000; 
+//       })
 
 
-  sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(7000)
-      .attr("height", sentiment_y(parseTime("2016-01-01")) );
-}
+//   sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
+//       .transition().duration(4000)
+//       .attr("height", sentiment_y(parseTime("2016-01-01")) + 10);
+// }
 
-function step2(data){ // Pats for Fancy Cat
-  scatter_svg.selectAll("circle")
-    .data(data)
-    .filter(function(d){return d.time <= parseTime("2017-01-01")})
-    .transition()
-    .duration(3000) 
-    .on("start", function() {  
-      d3.select(this)  
-        .attr("r", function(d) { return d.followers })  
-      })
-    .delay(function(d, i) {
-        return i / data.length * 4000;  
-      })
+// function step2(data){ // Pats for Fancy Cat
+//   scatter_svg.selectAll("circle")
+//     .data(data)
+//     .filter(function(d){return d.time <= parseTime("2017-01-01")})
+//     .transition()
+//     .duration(3000) 
+//     .on("start", function() {  
+//       d3.select(this)  
+//         .attr("r", function(d) { return d.followers })  
+//       })
+//     .delay(function(d, i) {
+//         return i / data.length * 4000;  
+//       })
 
-  sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(7000)
-      .attr("height", sentiment_y(parseTime("2017-01-01")) );
-}
+//   sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
+//       .transition().duration(4000)
+//       .attr("height", sentiment_y(parseTime("2017-01-01")) + 10 );
+// }
 
-function step3(data){ // Beeline for felines
-  scatter_svg.selectAll("circle")
-    .data(data)
-    .filter(function(d){return d.time <= parseTime("2018-01-01")})
-    .transition()
-    .duration(3000) 
-    .on("start", function() {  
-      d3.select(this) 
-        .attr("r", function(d) { return d.followers })  
-      })
-    .delay(function(d, i) {
-        return i / data.length * 4000;  
-      })
-
-
-  sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(7000)
-      .attr("height", sentiment_y(parseTime("2018-01-01")) );
-}
-
-function step4(data){ // Year of the Cat
-  scatter_svg.selectAll("circle")
-    .data(data)
-    .filter(function(d){return d.time <= parseTime("2018-02-17")})
-    .transition()
-    .duration(3000) 
-    .on("start", function() {  // Start animation
-      d3.select(this)  // 'this' means the current element
-        .attr("r", function(d) { return d.followers })  // Change size
-      })
-    .delay(function(d, i) {
-        return i / data.length * 4000;  // Dynamic delay (i.e. each item delays a little longer)
-      });
+// function step3(data){ // Beeline for felines
+//   scatter_svg.selectAll("circle")
+//     .data(data)
+//     .filter(function(d){return d.time <= parseTime("2018-01-01")})
+//     .transition()
+//     .duration(3000) 
+//     .on("start", function() {  
+//       d3.select(this) 
+//         .attr("r", function(d) { return d.followers })  
+//       })
+//     .delay(function(d, i) {
+//         return i / data.length * 4000;  
+//       })
 
 
-  sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(7000)
-      .attr("height", sentiment_y(parseTime("2018-02-17")) );  
-}
+//   sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
+//       .transition().duration(4000)
+//       .attr("height", sentiment_y(parseTime("2018-01-01")) + 10 );
+// }
 
-function step5(data){ // Adding kindle to the fire
-  scatter_svg.selectAll("circle")
-    .data(data)
-    .filter(function(d){return d.time <= parseTime("2018-04-20")})
-    .transition()
-    .duration(3000) 
-    .on("start", function() {  // Start animation
-      d3.select(this)  // 'this' means the current element
-        .attr("r", function(d) { return d.followers })  // Change size
-      })
-    .delay(function(d, i) {
-        return i / data.length * 4000;  // Dynamic delay (i.e. each item delays a little longer)
-      })
+// function step4(data){ // Year of the Cat
+//   scatter_svg.selectAll("circle")
+//     .data(data2)
+//     .filter(function(d){return d.time <= parseTime("2018-02-17")})
+//     .transition()
+//     .duration(3000) 
+//     .on("start", function() {  
+//       d3.select(this)  
+//         .attr("r", function(d) { return d.followers })  
+//       })
+//     .delay(function(d, i) {
+//         return i / data.length * 4000;  
+//       });
 
 
-  sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
-      .transition().duration(7000)
-      .attr("height", sentiment_y(parseTime("2018-04-20")) );
-}
+//   sentimentsvg.selectAll("#clip-sentiment2").selectAll("rect")
+//       .transition().duration(4000)
+//       .attr("height",  sentiment_y2(parseTime("2018-01-30")) );  
+// }
+
+// function step5(data){ // Adding kindle to the fire
+//   scatter_svg.selectAll("circle")
+//     .data(data)
+//     .filter(function(d){return d.time <= parseTime("2018-04-20")})
+//     .transition()
+//     .duration(3000) 
+//     .on("start", function() {  // Start animation
+//       d3.select(this)  // 'this' means the current element
+//         .attr("r", function(d) { return d.followers })  // Change size
+//       })
+//     .delay(function(d, i) {
+//         return i / data.length * 4000;  // Dynamic delay (i.e. each item delays a little longer)
+//       })
+
+
+//   sentimentsvg.selectAll("#clip-sentiment").selectAll("rect")
+//       .transition().duration(4000)
+//       .attr("height", sentiment_y(parseTime("2018-04-20")) + 10 );
+// }
 
 function updateScatterAxis(data) {
-  scatter_x.domain([0, d3.max(data, function(d) { return d.popularity; }) + 10]);
-  scatter_svg.selectAll(".scatterplots").transition().duration(2000).attr("cx", function(d) { 
+  scatter_x.domain([0, d3.max(data, function(d) { return d.popularity; })]);
+  scatter_svg.selectAll(".scatterplots").transition().duration(1000).attr("cx", function(d) { 
+      return scatter_x(d.popularity);});
+}
+
+function resetScatterAxis(data) {
+  scatter_x.domain([0, 30]);
+  scatter_svg.selectAll(".scatterplots").transition().duration(1000).attr("cx", function(d) { 
       return scatter_x(d.popularity);});
 }

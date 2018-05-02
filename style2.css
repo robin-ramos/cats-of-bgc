@@ -102,7 +102,7 @@
 
     .d3-tip.n:before {
         margin: 0 -1px 0 0;
-        bottom: 43%;
+        bottom: 0%;
         left: -8px;
         width: 0px;
         height: 50px;
@@ -211,16 +211,21 @@
     }
 
     #firsttweet {
-        margin-top: 515%;
+        margin-top: 300%;
     }
 
     #step2 {
-        margin-top: 500%;
+        margin-top: 80%;
     }
 
     #step3 {
-        margin-top: 175%;
+        margin-top: 300%;
     }
+
+    #step4 {
+        margin-top: 100%;
+    }
+
 
     .blockquote {
         margin-top: -10%;
@@ -235,7 +240,7 @@
     }
 
     #last-step {
-        margin-bottom: 5%;
+        margin-bottom: 10%;
     }
 
     .is-gone {
