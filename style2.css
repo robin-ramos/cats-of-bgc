@@ -164,7 +164,7 @@
         margin-top: 5%;
         padding-bottom: 15px;
         background-color: rgba(134, 135, 136, 0.1);
-        border-radius: 10px;
+        border-radius: 10px 0px 0px 10px;
         text-align: left;
         top: 15px!important;
         position: sticky;
