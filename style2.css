@@ -1,249 +1,545 @@
-    * {
-        /*font-family: 'Libre Franklin', sans-serif;*/
-        font-family: 'Montserrat', sans-serif;
+* {
+    /*font-family: 'Libre Franklin', sans-serif;*/
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+body {
+    color: white;
+    overflow-x: hidden;
+    background-color: #253634!important;
+    font-size: 1vw!important;
+}
+
+div.card-body {
+    padding: 0px!important;
+}
+
+path.line {
+    fill: none;
+    stroke: #000;
+    stroke-width: 2px;
+}
+
+h1 {
+    width: 100%;
+}
+
+#intro-post h1 {
+    font-size: 6em;
+    margin-top: 1vh;
+}
+
+#intro-post p {
+    font-size: 3em;
+}
+
+div.step h3.steptitle {
+    font-size: 5em;
+}
+
+h4 {
+    width: 100%;
+}
+
+.no-container {
+    margin-left: 0 !important;
+    margin-right: -100 !important;
+}
+
+.header {
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+#intro-post {
+    /*margin: 20px;*/
+    padding: 5%;
+    width: 100%;
+    background-color: transparent!important;
+    font-size: 1.5em;
+}
+
+
+.circle {
+
+}
+/*#intro-post:before {
+}
+*/
+
+
+#dataseer-logo {
+    height: 20vw;
+    width: 20vw;
+}
+
+#hero-title {
+    position: absolute;
+    left: 0;
+    top: 30%;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 4em;
+    vertical-align: center;
+}
+
+#hero-title .header {
+    font-size: 4em;
+    font-weight: bold;
+}
+
+
+@keyframes pan {
+    from {
+        background-position: 70%;
+    }
+}
+
+.bg {
+    /* The image used */
+    background-image: url("/cats1.jpg");
+    /* Full height */
+    min-height: 100vh;
+    width: 100%;
+
+    /* Center and scale the image nicely */
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.blockquote {
+    font-size: 1em!important;
+}
+.ct-btn-scroll {
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 9;
+    border-radius: 50%;
+    -webkit-transition: background-color 0.25s ease-in-out;
+    transition: background-color 0.25s ease-in-out;
+    margin-bottom: 5%;
+}
+
+#arrow {
+    height: 50px;
+}
+
+.d3-tip {
+    line-height: 1;
+    font-size: 12px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.d3-tip:before {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.5);
+    content: "\2BC7";
+    position: absolute;
+    text-align: center;
+}
+
+.d3-tip.n:before {
+    margin: 0 -1px 0 0;
+    bottom: 0%;
+    left: -8px;
+    width: 0px;
+    height: 50px;
+}
+
+.axisLine text {
+    font-size: 25px;
+    margin-right: 2px;
+    color: white;
+}
+
+.axisLine line {
+    stroke: #ABB2B9;
+    opacity: 0.8;
+
+}
+
+.axisLine path {
+    opacity: 0;
+}
+
+.timeLine {
+    opacity: 0.2;
+    stroke: #ABB2B9;
+    stroke-width: 1px;
+    font-size: 4em;
+    fill: #ABB2B9;
+}
+
+#svg-div {
+    z-index: 2;
+    position: relative;
+    /*margin-left: 60px*/
+}
+
+#axes {
+    position: sticky;
+    top: 10px;
+    margin-bottom: 5px;
+    z-index: 1;
+    transition: visibility 1s ease;
+}
+
+#tweetdiv {
+    position: fixed;
+    width: 550px;
+    height: 300px;
+    left: 35%;
+    top: 20px;
+    z-index: 1;
+}
+
+g.color-legend text {
+    font-size: 0.5em;
+}
+
+/* Cards CSS */
+
+.blockquote {
+    background-image: url('open-quote.png');
+    background-repeat: no-repeat;
+    background-position: top left;
+}
+
+.blockquote p.tweet {
+    background-image: url('close-quote.png');
+    background-repeat: no-repeat;
+    background-position: bottom right;
+}
+
+.steptitle {
+    color: white;
+    font-weight: bold;
+    opacity: 0.65;
+    font-size: 2em;
+}
+
+div.step {
+    padding: 25px;
+    margin-top: 5%;
+    margin-right: 5%;
+    /*max-height: 90vh;*/
+    padding-bottom: 15px;
+    background-color: rgba(134, 135, 136, 0.1);
+    border-radius: 10px;
+    text-align: left;
+    top: 15px!important;
+    position: sticky;
+    opacity: 1;
+    z-index: 3;
+    /*transition: opacity 0.25s ease;*/
+}
+
+div.step p {
+    color: white;
+    opacity: 0.65;
+    font-size: 2.5em;
+}
+
+div.blockquote>q>p {
+    padding-left: 10%;
+    padding-right: 10%;
+    font-family: 'IBM Plex Serif', serif!important;
+    color: white;
+    opacity: 0.65;
+    font-size: 0.75em;
+}
+
+p.blockquote-footer {
+    position: relative;
+    bottom: 100;
+}
+
+cite {
+    font-size: 4em!important;
+}
+
+.blockquote {
+    margin-top: -10%;
+    margin-bottom: -10%!important;
+    max-height: 300px;
+    max-width: 100%;
+}
+
+.tweet-image {
+    max-width: 100%;
+    max-height: 40vh;
+}
+
+#last-step {
+    margin-bottom: 10%;
+}
+
+.is-gone {
+    opacity: 0!important;
+    z-index: -1;
+}
+
+div.quote {
+    margin-top: -3vw;
+    height: 15vw;
+}
+div.quote:before {
+    content: '\201C';
+    top: 4vw;
+    right: 0.5vw;
+}
+
+div.quote:after {
+    content: '\201D';
+    bottom: 60px;
+    left: 18vw;
+}
+
+div.quote:before,
+div.quote:after {
+    font-size: 1.25em;
+    position: relative;
+    font-size: 5em;
+}
+
+p.tweet {
+    padding: 5px 25px;
+}
+
+div.quote footer {
+    text-align: right;
+}
+
+a.cite {
+    position: relative;
+    bottom: 7vh;
+    left: 17vw;
+}
+
+a.cite:before {
+    content: '- ';
+}
+/* Bootstrap overrides*/
+
+.container-fluid {
+    padding: 0!important;
+}
+
+.col-4,
+.col-8, .col-6 {
+    padding: 0!important;
+}
+
+.row {
+    margin: 0!important;
+}
+
+#firsttweet {
+    margin-top: 130vh;
+}
+
+#step2 {
+    margin-top: 80%;
+}
+
+#step3 {
+    margin-top: 300%;
+}
+
+#step4 {
+    margin-top: 10%;
+}
+
+#step5 {
+    margin-top: 50%;
+}
+
+div#axes text {
+    font-size: 3.5em;
+}
+
+.legend {
+    font-style:italic;
+    font-size: 0.75em;
+}
+
+.legend span {
+    font-size: 4em;
+}
+
+.size-legend {
+    visibility: hidden;
+}
+
+.blockquote-footer {
+    margin-bottom: 10%;
+}
+
+@media (min-width: 768px) {
+    #hero-title .header {
+        font-size: 3em;
     }
 
-
-    body {
-        color: white;
-        font-size: 8px;
-        overflow-x: hidden;
+    #dataseer-logo {
+        height: 15vw;
+        width: 15vw;
     }
 
-    path.line {
-        fill: none;
-        stroke: #000;
-        stroke-width: 2px;
+    #intro-post h1 {
+        font-size: 4em;
     }
 
-    h1 {
-        width: 100%;
+    #intro-post p {
+        font-size: 1.5em;
     }
 
-    h4 {
-        width: 100%;
+    div.step h3.steptitle {
+        font-size: 4em;
+    }
+}
+
+/*
+@media (max-width: 1366px) {
+    #firsttweet {
+        margin-top: 140vh;
+    }
+}
+
+@media (min-width: 993px) and (max-width: 1279.99px) {
+    div.step p {
+        font-size: 0.9em;
     }
 
-    .no-container {
-        margin-left: 0 !important;
-        margin-right: -100 !important;
+    div.card-body h3.card-title {
+        font-size: 1.75em!important;
     }
 
-    .header {
-        font-family: 'Libre Franklin', sans-serif;
+    div#axes text {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 992.99px) {
+    div#axes text {
+        font-size: 0.77em;
     }
 
+    div.step p {
+        font-size: 0.77em;
+    }
+
+    div.step h3.steptitle {
+        font-size: 1.5em;
+    }
+}
+
+@media (max-width: 1024px) and (max-height: 800px) {
     #intro-post {
-        height: 100%;
-        margin: 20px;
-        padding: 5%;
+        font-size: 1.5em;
     }
-
-    #hero-title {
-        position: absolute;
-        left: 0;
-        top: 40%;
-        width: 100%;
-        text-align: center;
-        color: white;
-        font-size: 20px;
-    }
-
-
-    .bg {
-        /* The image used */
-        background-image: url("cats1.jpg");
-        /* Full height */
-        height: 100%;
-
-        /* Center and scale the image nicely */
-        background-attachment: fixed;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-
-    .ct-btn-scroll {
-        left: 0;
-        right: 0;
-        margin: auto;
-        z-index: 9;
-        border-radius: 50%;
-        -webkit-transition: background-color 0.25s ease-in-out;
-        transition: background-color 0.25s ease-in-out;
-        margin-bottom: 5%;
-    }
-
-    #arrow {
-        height: 50px;
-    }
-
-    .d3-tip {
-        line-height: 1;
-        font-size: 12px;
-        padding: 12px;
-        background: rgba(0, 0, 0, 0.5);
-        color: white;
-        border-radius: 2px;
-        text-align: center;
-    }
-
-    .d3-tip:before {
-        box-sizing: border-box;
-        display: inline;
-        font-size: 10px;
-        width: 100%;
-        line-height: 1;
-        color: rgba(0, 0, 0, 0.5);
-        content: "\2BC7";
-        position: absolute;
-        text-align: center;
-    }
-
-    .d3-tip.n:before {
-        margin: 0 -1px 0 0;
-        bottom: 0%;
-        left: -8px;
-        width: 0px;
-        height: 50px;
-    }
-
-    .axisLine text {
-        font-size: 25px;
-        margin-right: 2px;
-        color: white;
-    }
-
-    .axisLine line {
-        stroke: #ABB2B9;
-        opacity: 0.8;
-    }
-
-    .axisLine path {
-        stroke: black;
-        opacity: 0.2;
-    }
-
-    .timeLine {
-        opacity: 0.2;
-        stroke: #ABB2B9;
-        stroke-width: 1px;
-        font-size: 50px;
-        fill: #ABB2B9;
+    d
+    #firsttweet {
+        margin-top: 130vh;
     }
 
     #svg-div {
-        z-index: 2;
-        position: relative;
-        margin-left: 60px
+        margin-left: 0px;
     }
 
-    #axes {
-        position: sticky;
-        top: 20;
-        z-index: 1;
+    div.svg-div {
+        margin-left: 3%;
+    }
+}   
+
+
+@media (max-width: 960px) and (max-height: 605px) {
+    #firsttweet {
+        margin-top: 155vh;
+    }
+}
+*/
+
+
+@media (max-width: 768px) {
+    .bg {
+        background-position: 100% center;
+        animation: pan 5s ease-in-out;
+    }
+}
+
+@media (min-width: 576px) {
+    div#axes text {
+        font-size: 2em;
+    }
+    .legend span {
+        font-size: 2em;
+    }
+    .timeLine {
+        font-size: 3em;
     }
 
-    #tweetdiv {
-        position: fixed;
-        width: 550px;
-        height: 300px;
-        left: 35%;
-        top: 20px;
-        z-index: 1;
+    #intro-post p {
+        font-size: 1.5em!important;
     }
 
-    .steptitle {
-        color: white;
-        font-weight: bold;
-        opacity: 0.65;
+    div.step p {
+        font-size: 2em;
     }
 
-    div.step {
-        padding: 25px;
-        margin-top: 5%;
-        padding-bottom: 15px;
-        background-color: rgba(134, 135, 136, 0.1);
-        border-radius: 10px;
-        text-align: left;
-        top: 15px!important;
-        position: sticky;
-        opacity: 1;
-        transition: opacity 0.25s ease;
+    cite {
+        font-size: 3em!important;
+    }
+}
+
+@media (min-width: 900px) {
+    #hero-title {
+        font-size: 3em;
+    }
+    div.step p {
+        font-size: 1.25em;
     }
 
-    div.step>p {
-        color: white;
-        opacity: 0.65;
+    cite {
+        font-size: 2em!important;
+    }
+}
+
+@media (min-width: 1280px) {
+    #intro-post {
         font-size: 1em;
     }
-
-    q:before {
-        content: "\201C";
-        font-weight: bold;
-        font-size: 4em;
-        position: relative;
-        right: 90%;
-        top: 0.75em;
+    #intro-post h1 {
+        font-size: 3em;
+    }
+    #hero-title {
+        font-size: 2.5em;
+    }
+    div#axes text {
+        font-size: 1.25em;
     }
 
-    q:after {
-        content: "\201D";
-        font-weight: bold;
-        font-size: 4em;
-        position: relative;
-        bottom: 40px;
-        right: -5px;
+    .size-legend {
+        visibility: visible;
     }
 
-    div.blockquote>q>p {
-        padding-left: 10%;
-        padding-right: 10%;
-        font-family: 'IBM Plex Serif', serif!important;
-        color: white;
-        opacity: 0.65;
-        font-size: 0.75em;
+    #dataseer-logo {
+        height: 150px;
+        width: 150px;
     }
 
-    footer.blockquote-footer {
-        position: relative;
-        bottom: 100;
+    div.step h3.steptitle {
+        font-size: 2.5em;
     }
-
-    #firsttweet {
-        margin-top: 300%;
-    }
-
-    #step2 {
-        margin-top: 80%;
-    }
-
-    #step3 {
-        margin-top: 300%;
-    }
-
-    #step4 {
-        margin-top: 100%;
-    }
-
-
-    .blockquote {
-        margin-top: -10%;
-        margin-bottom: -10%!important;
-        max-height: 300px;
-        max-width: 100%;
-    }
-
-    .tweet-image {
-        max-width: 100%;
-        max-height: 40vh;
-    }
-
-    #last-step {
-        margin-bottom: 10%;
-    }
-
-    .is-gone {
-        opacity: 0!important;
-        z-index: -1;
-    }
+}
