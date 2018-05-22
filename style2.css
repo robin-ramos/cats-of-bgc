@@ -98,7 +98,7 @@ h4 {
 
 .bg {
     /* The image used */
-    background-image: url("/cats1.jpg");
+    background-image: url("https://cdn.rawgit.com/robin-ramos/cats-of-bgc/a126fb2e/cats1.jpg");
     /* Full height */
     min-height: 100vh;
     width: 100%;
