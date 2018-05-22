@@ -17,10 +17,6 @@ if ($(window).width() > $(window).height()) {
   var orientation = 'portrait';
 };
 
-console.log('vw_width: ' + $(window).width())
-console.log('vw_height: ' + $(window).height())
-console.log('is_mobile: ' + is_mobile)
-console.log('is_tablet: ' + is_tablet)
 
 var robin;
 var allposts;
@@ -63,8 +59,6 @@ if (width < 1280) {
   var scatter_width = chart_width * 0.89 - margin.left - margin.right; // can be scaled based on viewport
 }
 
-console.log('sentiment_width is ' + sentiment_width)
-console.log('scatter_width is ' + scatter_width)
 
 // changes width of svg-div based on width
 if (width < 1280) {
@@ -562,7 +556,7 @@ if (width >= 1280) {
         .attr("class", "color-legend")
         .attr("transform", "translate(" + translate_n + ",30)");
 
-console.log(translate_n);
+
 
     function size_legend(followers) {
         if (is_mobile) {
